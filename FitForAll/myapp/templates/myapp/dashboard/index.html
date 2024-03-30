@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,25 +6,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fit For All</title>
-    <link href="./style.css" rel="stylesheet">
+    <link href="{% static 'myapp/dashboard.css' %}" rel="stylesheet">
 </head>
 
 <body>
     <!-- nav bar -->
     <section class="nav-bar">
         <div class="nav nav-links">
-                <li><div><img src="./images/sam2.jpg" height="50px" class="little-icon"></div></li>
-                <li><div class="nav-item"> <a href="../">About Me </a></div></li>
-                <li><div class="nav-item"> <a href="google.com">Resume </a></div></li>
-                <li><div class="nav-item"> <a href="google.com">Projects </a></div></li>
-                <li><div class="nav-item"> <a href="google.com">Socials </a></div></li>  
+            <li>
+                <div><img src="./images/sam2.jpg" height="50px" class="little-icon"></div>
+            </li>
+            <li>
+                <div class="nav-item"> <a href="../">About Me </a></div>
+            </li>
+            <li>
+                <div class="nav-item"> <a href="google.com">Resume </a></div>
+            </li>
+            <li>
+                <div class="nav-item"> <a href="google.com">Projects </a></div>
+            </li>
+            <li>
+                <div class="nav-item"> <a href="google.com">Socials </a></div>
+            </li>
         </div>
     </section>
     <!-- title -->
     <section>
         <h1> Fit For All </h1>
     </section>
-    
+
 </body>
 
 </html>

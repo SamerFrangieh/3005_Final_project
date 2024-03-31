@@ -12,3 +12,12 @@ def dashboard_view(request):
     # Dashboard no context
     return render(request, 'myapp/dashboard/index.html')
 
+def register(request):
+    return render(request, 'myapp/registration/register.html')
+def train_login(request):
+    return render(request, 'myapp/login/trainerLogin.html')
+
+def admin_login(request):
+    return render(request, 'myapp/login/adminLogin.html')
+def member_login(request):
+    return render(request, 'myapp/login/memberLogin.html')

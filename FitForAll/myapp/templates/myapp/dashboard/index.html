@@ -1,14 +1,72 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fit For All</title>
+    <title>Member dashboard</title>
     <link href="{% static 'myapp/dashboard.css' %}" rel="stylesheet">
-</head>
+    <style>
+    .nav{
+        display: flex;
+        margin-bottom: 0px;
+        background-color: rgb(82, 109, 130);
+        gap: 10%;
+        margin-left: 0;
+        padding: 10px;
+        border-top: 5px solid rgb(34, 40, 49);
+        border-bottom: 5px solid rgb(34, 40, 49);
+    }
+    .nav-links{
+        list-style-type: none;
+    }
+    .nav-item> a{
+        color: aliceblue;
+    }
+    .nav-item{
+        font-size: 25px;
+    }
+    .nav-logo{
+        font-size: 50px;
+    }
 
+    .box{
+        height: 50vh;
+        display: flex;
+        justify-content: center;
+    }
+    .stuff{
+        margin-top: 0px;
+        background-color: rgb(82, 109, 130);
+        width: 450px;
+        vertical-align: middle;
+        border: 5px solid black;
+    }
+    .title-yes{
+        display: flex;
+        gap: 10px;
+    }
+    h1{
+        color: blue;
+        font-size: 100px;
+        margin: 0;
+        margin-top: 10px;
+        background-color: orange;
+        width: 450px;
+        border: 5px solid black;
+    }
+    h2{
+        color: black;
+        font-size: 50px;
+    }
+    .stuff > div{
+        margin-left: 10px;
+        
+    }
+    
+
+    </style>
+</head>
 <body>
     <!-- nav bar -->
     <section class="nav-bar">
@@ -17,21 +75,23 @@
                 <div class="nav-logo nav-item">🏋️</div>
             </li>
             <li>
-                <div class="nav-item"><a href="../">IDK yet </a></div>
+                <div class="nav-item"> <a href="../login/memberLogin.html">Member Log-In </a></div>
             </li>
             <li>
-                <div class="nav-item"> <a href="../">Resume </a></div>
+                <div class="nav-item"> <a href="../login/trainerLogin.html">Trainer Log-In </a></div>
             </li>
             <li>
-                <div class="nav-item"> <a href="../">Projects </a></div>
+                <div class="nav-item"> <a href="../login/adminLogin.html">Admin Log-In </a></div>
             </li>
         </div>
     </section>
-    <!-- title -->
     <section>
-        <h1> Fit For All </h1>
+    <div class="title-yes">
+        <h1> Fit For All </h1> 
+        <h2> - Member Login Page</h2>
+    </div>
     </section>
-
+    <!-- Login Box -->
+    
 </body>
-
 </html>

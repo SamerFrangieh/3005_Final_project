@@ -61,3 +61,14 @@ CREATE TABLE billing (
     payment_date DATE,
     FOREIGN KEY (member_id) REFERENCES members (member_id)
 );
+
+-- Deleting all tables in the schema
+DO $$
+DECLARE
+    r RECORD;
+BEGIN
+    FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
+        EXECUTE 'DROP TABLE IF EXISTS ' || quote_ident(r.tablename) || ' CASCADE;';
+    END LOOP;
+END $$;
+

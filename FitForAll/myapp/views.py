@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.contrib.auth import authenticate, login
 
 #from .models import Book
 def member_login(request):
@@ -21,3 +22,19 @@ def admin_login(request):
     return render(request, 'myapp/login/adminLogin.html')
 def member_login(request):
     return render(request, 'myapp/login/memberLogin.html')
+
+
+
+def member_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user and not user.is_staff:
+            login(request, user)
+            # Redirect to member dashboard or any other member page
+            return redirect('myapp/dashboard/index.html')  # Assuming 'dashboard' is the name of your member dashboard URL
+        else:
+            return render(request, 'myapp/login/memberLogin.html', {'error': 'Invalid username or password'})
+    else:
+        return render(request, 'myapp/login/memberLogin.html')

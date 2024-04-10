@@ -14,13 +14,17 @@ CREATE TABLE members (
 CREATE TABLE trainers (
     trainer_id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    availability JSONB
+    availability JSONB, 
+    password VARCHAR(255) NOT NULL
+
 );
 
 -- Create table for Administrative Staff
 CREATE TABLE admin_staff (
     staff_id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
+    name VARCHAR(255) NOT NULL, 
+    password VARCHAR(255) NOT NULL,
+
 );
 
 -- Create table for Fitness Classes
@@ -28,7 +32,7 @@ CREATE TABLE fitness_classes (
     class_id SERIAL PRIMARY KEY,
     class_name VARCHAR(255) NOT NULL,
     room_id INT NOT NULL,
-    schedule TIMESTAMPTZ NOT NULL
+    schedule TIMESTAMPTZ NOT NULL, 
 );
 
 -- Create table for Room Bookings

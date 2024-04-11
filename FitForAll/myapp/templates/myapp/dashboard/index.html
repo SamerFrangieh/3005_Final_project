@@ -1,75 +1,85 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Member dashboard</title>
     <link href="{% static 'myapp/dashboard.css' %}" rel="stylesheet">
     <style>
-    .nav{
-        display: flex;
-        margin-bottom: 0px;
-        background-color: rgb(82, 109, 130);
-        gap: 10%;
-        margin-left: 0;
-        padding: 10px;
-        border-top: 5px solid rgb(34, 40, 49);
-        border-bottom: 5px solid rgb(34, 40, 49);
-    }
-    .nav-links{
-        list-style-type: none;
-    }
-    .nav-item> a{
-        color: aliceblue;
-    }
-    .nav-item{
-        font-size: 25px;
-    }
-    .nav-logo{
-        font-size: 50px;
-    }
+        .nav {
+            display: flex;
+            margin-bottom: 0px;
+            background-color: rgb(82, 109, 130);
+            gap: 10%;
+            margin-left: 0;
+            padding: 10px;
+            border-top: 5px solid rgb(34, 40, 49);
+            border-bottom: 5px solid rgb(34, 40, 49);
+        }
 
-    .box{
-        height: 50vh;
-        display: flex;
-        justify-content: center;
-    }
-    .stuff{
-        margin-top: 0px;
-        background-color: rgb(82, 109, 130);
-        width: 450px;
-        vertical-align: middle;
-        border: 5px solid black;
-    }
-    .title-yes{
-        display: flex;
-        gap: 10px;
-    }
-    h1{
-        color: blue;
-        font-size: 100px;
-        margin: 0;
-        margin-top: 10px;
-        background-color: orange;
-        width: 450px;
-        border: 5px solid black;
-    }
-    h2{
-        color: black;
-        font-size: 50px;
-    }
-    .stuff > div{
-        margin-left: 10px;
-        
-    }
-    button{
-        font-size: 20px;
-    }
-    
+        .nav-links {
+            list-style-type: none;
+        }
 
+        .nav-item>a {
+            color: aliceblue;
+        }
+
+        .nav-item {
+            font-size: 25px;
+        }
+
+        .nav-logo {
+            font-size: 50px;
+        }
+
+        .box {
+            height: 50vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .stuff {
+            margin-top: 0px;
+            background-color: rgb(82, 109, 130);
+            width: 450px;
+            vertical-align: middle;
+            border: 5px solid black;
+        }
+
+        .title-yes {
+            display: flex;
+            gap: 10px;
+        }
+
+        h1 {
+            color: blue;
+            font-size: 100px;
+            margin: 0;
+            margin-top: 10px;
+            background-color: orange;
+            width: 450px;
+            border: 5px solid black;
+        }
+
+        h2 {
+            color: black;
+            font-size: 50px;
+        }
+
+        .stuff>div {
+            margin-left: 10px;
+
+        }
+
+        button {
+            font-size: 20px;
+        }
     </style>
 </head>
+
 <body>
     <!-- nav bar -->
     <section class="nav-bar">
@@ -89,82 +99,82 @@
         </div>
     </section>
     <section>
-    <div class="title-yes">
-        <h1> Fit For All </h1> 
-        <h2> - Member Dashboard</h2>
-    </div>
+        <div class="title-yes">
+            <h1> Fit For All </h1>
+            <h2> - Member Dashboard</h2>
+        </div>
     </section>
-    
+
     <section class="profile-management">
         <div class="profile" draggable="true">
-        <h2>Profile Management</h2>
-        <form method="post">
-            {% csrf_token %}
-            <!-- Blood Pressure: Systolic -->
-            <label for="systolic">Blood Pressure - Systolic (mmHg):</label><br>
-            <select id="systolic" name="systolic">
-                <option value="90">90 mmHg or less</option>
-                <option value="95">100 mmHg</option>
-                <option value="95">110 mmHg</option>
-                <option value="95">120 mmHg</option>
-                <option value="95">130 mmHg</option>
-                <option value="95">140 mmHg</option>
-                <option value="95">150 mmHg</option>
-                <option value="95">160 mmHg</option>
-                <option value="95">170 mmHg</option>
-                <option value="95">180+ mmHg</option>
-                <!-- Add more options as needed -->
-            </select><br>
+            <h2>Profile Management</h2>
+            <form method="post" action="{% url 'profile_management' %}">
+                {% csrf_token %}
+                <!-- Blood Pressure: Systolic -->
+                <label for="systolic">Blood Pressure - Systolic (mmHg):</label><br>
+                <select id="systolic" name="systolic">
+                    <option value="90">90 mmHg or less</option>
+                    <option value="95">100 mmHg</option>
+                    <option value="95">110 mmHg</option>
+                    <option value="95">120 mmHg</option>
+                    <option value="95">130 mmHg</option>
+                    <option value="95">140 mmHg</option>
+                    <option value="95">150 mmHg</option>
+                    <option value="95">160 mmHg</option>
+                    <option value="95">170 mmHg</option>
+                    <option value="95">180+ mmHg</option>
+                    <!-- Add more options as needed -->
+                </select><br>
 
-            <!-- Blood Pressure: Diastolic -->
-            <label for="diastolic">Blood Pressure - Diastolic (mmHg):</label><br>
-            <select id="diastolic" name="diastolic">
-                <option value="90">30 mmHg or less</option>
-                <option value="95">40 mmHg</option>
-                <option value="95">50 mmHg</option>
-                <option value="95">60 mmHg</option>
-                <option value="95">70 mmHg</option>
-                <option value="95">80 mmHg</option>
-                <option value="95">90 mmHg</option>
-                <option value="95">100 mmHg</option>
-                <option value="95">110 mmHg</option>
-                <option value="95">120++ mmHg</option>
-                <!-- Add more options as needed -->
-            </select><br>
-            
-            
-            <!-- Height in cm -->
-            <label for="Height">Height in cm:</label><br>
-        <input type="text" id="Height" name="Height" required><br>
-        
-            
-            <!-- Weight in kg -->
-            <label for="Weight">Weight in kg:</label><br>
-        <input type="text" id="Weight" name="Weight" required><br>
-            
-            <!-- Fitness Goals -->
-            <label for="fitness-goals">Fitness Goals:</label><br>
-            <select id="fitness_goals" name="fitness_goals">
-                <option value="lose_weight">Lose Weight</option>
-                <option value="gain_muscle">Gain Muscle</option>
-                <option value="improve_endurance">Improve Endurance</option>
-                <option value="increase_flexibility">Increase Flexibility</option>
-            </select><br>
-            
-            <button type="submit">Update Profile</button>
-        </form>
-    </div>
+                <!-- Blood Pressure: Diastolic -->
+                <label for="diastolic">Blood Pressure - Diastolic (mmHg):</label><br>
+                <select id="diastolic" name="diastolic">
+                    <option value="90">30 mmHg or less</option>
+                    <option value="95">40 mmHg</option>
+                    <option value="95">50 mmHg</option>
+                    <option value="95">60 mmHg</option>
+                    <option value="95">70 mmHg</option>
+                    <option value="95">80 mmHg</option>
+                    <option value="95">90 mmHg</option>
+                    <option value="95">100 mmHg</option>
+                    <option value="95">110 mmHg</option>
+                    <option value="95">120++ mmHg</option>
+                    <!-- Add more options as needed -->
+                </select><br>
+
+
+                <!-- Height in cm -->
+                <label for="Height">Height in cm:</label><br>
+                <input type="text" id="Height" name="Height" required><br>
+
+
+                <!-- Weight in kg -->
+                <label for="Weight">Weight in kg:</label><br>
+                <input type="text" id="Weight" name="Weight" required><br>
+
+                <!-- Fitness Goals -->
+                <label for="fitness-goals">Fitness Goals:</label><br>
+                <select id="fitness_goals" name="fitness_goals">
+                    <option value="lose_weight">Lose Weight</option>
+                    <option value="gain_muscle">Gain Muscle</option>
+                    <option value="improve_endurance">Improve Endurance</option>
+                    <option value="increase_flexibility">Increase Flexibility</option>
+                </select><br>
+
+                <button type="submit">Update Profile</button>
+            </form>
+        </div>
     </section>
-    
+
     <section class="personalized-dashboard">
         <h2>Personalized Dashboard</h2>
         <div class="dashboard-content">
             <p>Exercise Routines:</p>
             <!-- Dynamically loaded content goes here -->
-            
+
             <p>Fitness Achievements:</p>
             <!-- Dynamically loaded content goes here -->
-            
+
             <p>Health Statistics:</p>
             <!-- Dynamically loaded content goes here -->
         </div>
@@ -178,18 +188,19 @@
                 <option value="personal_training">Personal Training Session</option>
                 <option value="group_fitness">Group Fitness Class</option>
             </select><br>
-            
+
             <label for="date">Date:</label><br>
             <input type="date" id="date" name="date" required><br>
-            
+
             <label for="time">Time:</label><br>
             <input type="time" id="time" name="time" required><br>
-            
+
             <button type="submit">Schedule Session</button>
         </form>
     </section>
-    
-    
-    
+
+
+
 </body>
+
 </html>

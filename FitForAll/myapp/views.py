@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Member
+from .models import Member, MemberStats
 from django.db import connection
  # Prints the last executed query
 # #from .models import Book
@@ -55,6 +55,46 @@ def train_login(request):
 
 def admin_login(request):
     return render(request, 'myapp/login/adminLogin.html')
+
+def trainer_dashboard(request):
+    return render(request, 'myapp/dashboard/trainerDashboard.html')
+def admin_dashboard(request):
+    return render(request, 'myapp/dashboard/adminDashboard.html')
+
+def profile_management(request):
+    if not request.session.get('member_id'):
+        # Redirect to login if member_id not in session
+        return redirect('member_login')  # Adjust with your login view's name
+
+    member_id = request.session['member_id']
+    member = Member.objects.get(pk=member_id)
+
+    if request.method == 'POST':
+        # Fetch existing stats for the member or create new if does not exist
+        member_stats, created = MemberStats.objects.get_or_create(member=member)
+
+        # Updating member stats with form data
+        member_stats.diastolic_bp = request.POST.get('diastolic')
+        member_stats.systolic_bp = request.POST.get('systolic')
+        member_stats.height = request.POST.get('Height')
+        member_stats.weight = request.POST.get('Weight')
+        member_stats.fitness_goal = request.POST.get('fitness_goals')
+        member_stats.save()
+
+        messages.success(request, "Profile updated successfully!")
+        return redirect(request, 'myapp/dashboard/index.html')  # Adjust with your dashboard view's name
+
+    else:
+        try:
+            # If existing stats, load them into the context
+            member_stats = MemberStats.objects.get(member=member)
+        except MemberStats.DoesNotExist:
+            member_stats = None
+
+        context = {
+            'member_stats': member_stats,
+        }
+        return render(request, 'myapp/dashboard/index.html', context)
 
 
 def member_login(request):

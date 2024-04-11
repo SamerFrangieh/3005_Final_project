@@ -108,7 +108,7 @@
     <section class="profile-management">
         <div class="profile" draggable="true">
             <h2>Profile Management</h2>
-            <form method="post" action="{% url 'profile_management' %}">
+            <form method="post" action="{% url 'dashboard' %}">
                 {% csrf_token %}
                 <!-- Blood Pressure: Systolic -->
                 <label for="systolic">Blood Pressure - Systolic (mmHg):</label><br>
@@ -130,6 +130,7 @@
                 <!-- Blood Pressure: Diastolic -->
                 <label for="diastolic">Blood Pressure - Diastolic (mmHg):</label><br>
                 <select id="diastolic" name="diastolic">
+                    <option value="">Select...</option>
                     <option value="90">30 mmHg or less</option>
                     <option value="95">40 mmHg</option>
                     <option value="95">50 mmHg</option>

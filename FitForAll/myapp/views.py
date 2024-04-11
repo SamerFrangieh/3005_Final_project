@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Member, MemberStats
+from .models import Member
 from django.db import connection
  # Prints the last executed query
 # #from .models import Book
@@ -61,40 +61,28 @@ def trainer_dashboard(request):
 def admin_dashboard(request):
     return render(request, 'myapp/dashboard/adminDashboard.html')
 
-def profile_management(request):
+def dashboard(request):
     if not request.session.get('member_id'):
-        # Redirect to login if member_id not in session
-        return redirect('member_login')  # Adjust with your login view's name
+        return redirect('memberLogin')  # Make sure this is the correct URL name for the login view
 
     member_id = request.session['member_id']
     member = Member.objects.get(pk=member_id)
 
     if request.method == 'POST':
-        # Fetch existing stats for the member or create new if does not exist
-        member_stats, created = MemberStats.objects.get_or_create(member=member)
-
-        # Updating member stats with form data
-        member_stats.diastolic_bp = request.POST.get('diastolic')
-        member_stats.systolic_bp = request.POST.get('systolic')
-        member_stats.height = request.POST.get('Height')
-        member_stats.weight = request.POST.get('Weight')
-        member_stats.fitness_goal = request.POST.get('fitness_goals')
-        member_stats.save()
+        print("POST Data:", request.POST)
+        member.diastolic_bp = request.POST.get('diastolic')
+        member.systolic_bp = request.POST.get('systolic')
+        member.height = request.POST.get('Height')
+        member.weight = request.POST.get('Weight')
+        member.fitness_goal = request.POST.get('fitness_goals')
+        member.save()
 
         messages.success(request, "Profile updated successfully!")
-        return redirect(request, 'myapp/dashboard/index.html')  # Adjust with your dashboard view's name
+        return redirect('dashboard')  # Correct use of redirect with a URL name
 
     else:
-        try:
-            # If existing stats, load them into the context
-            member_stats = MemberStats.objects.get(member=member)
-        except MemberStats.DoesNotExist:
-            member_stats = None
-
-        context = {
-            'member_stats': member_stats,
-        }
-        return render(request, 'myapp/dashboard/index.html', context)
+        context = {'member': member}
+        return render(request, 'myapp/dashboard/index.html', context)  # Use render for GET requests that return a template
 
 
 def member_login(request):
@@ -116,7 +104,7 @@ def member_login(request):
         print(connection.queries[-1])  # Safer usage
         
         request.session['member_id'] = member.member_id
-        return render(request, 'myapp/dashboard/index.html')
+        return redirect('dashboard')
     else:
         return render(request, 'myapp/login/memberLogin.html')
     

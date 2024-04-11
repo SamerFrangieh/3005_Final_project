@@ -1,12 +1,16 @@
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 
+
 class Member(models.Model):
     member_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
-    password = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)  # Consider using Django's built-in User model for better security
     fitness_goal = models.CharField(max_length=255, blank=True)
     health_metrics = models.JSONField()
+    height = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)  # Allow null if optional
+    weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)  # Allow null if optional
+
 
 class Trainer(models.Model):
     trainer_id = models.AutoField(primary_key=True)

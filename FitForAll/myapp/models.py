@@ -4,7 +4,6 @@ from django.contrib.postgres.fields import JSONField
 class Member(models.Model):
     member_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
-    email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)
     fitness_goal = models.CharField(max_length=255, blank=True)
     health_metrics = models.JSONField()

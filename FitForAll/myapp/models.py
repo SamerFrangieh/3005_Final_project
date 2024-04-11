@@ -10,6 +10,8 @@ class Member(models.Model):
     health_metrics = models.JSONField()
     height = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)  # Allow null if optional
     weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)  # Allow null if optional
+    goal_weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    weeks_to_goal = models.IntegerField(null=True, blank=True)
 
 class MemberStats(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='stats')

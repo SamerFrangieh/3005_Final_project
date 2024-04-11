@@ -9,6 +9,17 @@ CREATE TABLE members (
     health_metrics JSONB
 );
 
+CREATE TABLE member_stats (
+    stats_id SERIAL PRIMARY KEY,
+    member_id INTEGER NOT NULL,
+    diastolic_bp INTEGER NOT NULL,
+    systolic_bp INTEGER NOT NULL,
+    height DECIMAL(5, 2) NOT NULL,
+    weight DECIMAL(5, 2) NOT NULL,
+    fitness_goal VARCHAR(255),
+    FOREIGN KEY (member_id) REFERENCES Member(member_id)
+);
+
 -- Create table for Trainers
 CREATE TABLE trainers (
     trainer_id SERIAL PRIMARY KEY,

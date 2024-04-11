@@ -79,3 +79,5 @@ def member_login(request):
         return render(request, 'myapp/dashboard/index.html')
     else:
         return render(request, 'myapp/login/memberLogin.html')
+    
+

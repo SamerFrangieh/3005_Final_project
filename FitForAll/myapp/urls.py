@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.member_login, name='memberLogin'),  # This is where you define the URL name.
-    path('dashboard/index.html', views.dashboard_view, name='dashboard'),
+    path('dashboard/index.html', views.dashboard, name='dashboard'),
     path('dashboard/trainerDashboard.html', views.trainerDashboard, name='trainerDashboard'),
     path('dashboard/adminDashboard.html', views.adminDashboard, name='adminDashboard'),
     path('registration/register.html', views.register, name='register'),

@@ -45,8 +45,14 @@
                         <input type="text" id="name" name="name" required><br>
                         <label for="password">Password:</label><br>
                         <input type="text" id="password" name="password" required><br>
-                        <label for="goals">Fitness Goals:</label><br>
-                        <input type="text" id="goals" name="goals" required><br>
+            <!-- Fitness Goals -->
+            <label for="goals">Fitness Goals:</label><br>
+            <select id="goals" name="goals">
+                <option value="lose_weight" {% if member.fitness_goal == 'lose_weight' %}selected{% endif %}>Lose Weight</option>
+                <option value="gain_muscle" {% if member.fitness_goal == 'gain_muscle' %}selected{% endif %}>Gain Muscle</option>
+                <option value="improve_endurance" {% if member.fitness_goal == 'improve_endurance' %}selected{% endif %}>Improve Endurance</option>
+                <option value="increase_flexibility" {% if member.fitness_goal == 'increase_flexibility' %}selected{% endif %}>Increase Flexibility</option>
+            </select><br>
                         <label for="height">Height in cm (ex:180cm):</label><br>
                         <input type="text" id="height" name="height" required><br>
                         <label for="weight">Weight in kg (ex: 80kg):</label><br>

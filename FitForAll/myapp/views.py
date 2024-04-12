@@ -7,12 +7,6 @@ from django.db import connection
 # def member_login(request):
 #     return render(request, 'myapp/login/memberLogin.html')
 
-def dashboard_view(request):
-    # Will put objects here once Samer creates dashboard frontend
-    # objects = YourModel.objects.all()
-
-    # Dashboard no context
-    return render(request, 'myapp/dashboard/index.html')
 
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -104,26 +98,27 @@ def adminDashboard(request):
 
 def dashboard(request):
     if not request.session.get('member_id'):
-        return redirect('memberLogin')  # Make sure this is the correct URL name for the login view
+        return redirect('memberLogin')
 
     member_id = request.session['member_id']
-    member = Member.objects.get(pk=member_id)
+    try:
+        member = Member.objects.get(member_id=member_id)
+    except Member.DoesNotExist:
+        return redirect('memberLogin')  # Consider adding an error message or similar
 
     if request.method == 'POST':
-        print("POST Data:", request.POST)
         member.diastolic_bp = request.POST.get('diastolic')
         member.systolic_bp = request.POST.get('systolic')
         member.height = request.POST.get('Height')
         member.weight = request.POST.get('Weight')
         member.fitness_goal = request.POST.get('fitness_goals')
         member.save()
-
         messages.success(request, "Profile updated successfully!")
-        return redirect('dashboard')  # Correct use of redirect with a URL name
-
-    else:
         context = {'member': member}
-        return render(request, 'myapp/dashboard/index.html', context)  # Use render for GET requests that return a template
+        return render(request, 'myapp/dashboard/index.html', context)
+
+    context = {'member': member}
+    return render(request, 'myapp/dashboard/index.html', context)
 
 
 def member_login(request):
@@ -135,14 +130,10 @@ def member_login(request):
         try:
             member = Member.objects.get(name=name, password=password)
             # Print the last query, safely inside a conditional block ensuring at least one query was made
-            print(connection.queries[-1])  # Safer usage
         except Member.DoesNotExist:
             # Print the last query, safely inside a conditional block ensuring at least one query was made
-            print(connection.queries[-1])  # Safer usage
             return render(request, 'myapp/login/memberLogin.html', {'error': 'Invalid username or password'})
         
-        # Print the last query, safely inside a conditional block ensuring at least one query was made
-        print(connection.queries[-1])  # Safer usage
         
         request.session['member_id'] = member.member_id
         return redirect('dashboard')

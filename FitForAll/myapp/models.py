@@ -11,10 +11,10 @@ class Member(models.Model):
     weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)  # Allow null if optional
     goal_weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     weeks_to_goal = models.IntegerField(null=True, blank=True)
-    diastolic_bp = models.IntegerField(verbose_name="Diastolic Blood Pressure", null=True)
-    systolic_bp = models.IntegerField(verbose_name="Systolic Blood Pressure", null=True)
-    fitness_goal = models.CharField(max_length=255, blank=True, verbose_name="Fitness Goal")
-    act_levels = models.CharField(max_length=255, blank=True, verbose_name="Activity Levels")
+    diastolic_bp = models.IntegerField(verbose_name="Diastolic Blood Pressure",null=True, default=0)
+    systolic_bp = models.IntegerField(verbose_name="Systolic Blood Pressure",null=True, default=0)
+    fitness_goal = models.CharField(max_length=255, blank=True, null=True,verbose_name="Fitness Goal")
+    act_levels = models.CharField(max_length=255, blank=True, null=True,verbose_name="Activity Levels",default="1-3 x times a week")
 
 class Trainer(models.Model):
     trainer_id = models.AutoField(primary_key=True)

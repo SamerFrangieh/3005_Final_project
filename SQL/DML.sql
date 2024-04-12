@@ -23,5 +23,5 @@ INSERT INTO myapp_admin (admin_id, name, password)
 VALUES (2, 'admin', 'admin');
 
 INSERT INTO myapp_member (member_id, name, password, health_metrics, height, weight, goal_weight, weeks_to_goal, diastolic_bp, systolic_bp, fitness_goal)
-VALUES (1, 'dhirran', 'dhirran', '{}', 180.00, 180.00, NULL, NULL, NULL, NULL, 'Lose weight');
+VALUES (1, 'dhirran', 'dhirran', '{}', 180.00, 180.00, NULL, NULL, 0, 0, 'Lose weight');
 

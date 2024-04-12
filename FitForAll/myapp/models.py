@@ -18,11 +18,13 @@ class Member(models.Model):
 class Trainer(models.Model):
     trainer_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
-    availability = models.JSONField()
+    password = models.CharField(max_length=255) 
+    availability = models.JSONField(null=True)
 
-class AdminStaff(models.Model):
-    staff_id = models.AutoField(primary_key=True)
+class Admin(models.Model):
+    admin_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
+    password = models.CharField(max_length=255) 
 
 class FitnessClass(models.Model):
     class_id = models.AutoField(primary_key=True)

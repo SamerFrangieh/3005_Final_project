@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Member
+from .models import *
 from django.db import connection
  # Prints the last executed query
 # #from .models import Book
@@ -51,14 +51,55 @@ def register(request):
         return render(request, 'myapp/registration/register.html')
 
 def train_login(request):
-    return render(request, 'myapp/login/trainerLogin.html')
+    if request.method == 'POST':
+        name = request.POST.get('name').strip()
+        password = request.POST.get('password').strip()
+
+        # Assuming at least this query will be made
+        try:
+            trainer = Trainer.objects.get(name=name, password=password)
+            # Print the last query, safely inside a conditional block ensuring at least one query was made
+            print(connection.queries[-1])  # Safer usage
+        except Trainer.DoesNotExist:
+            # Print the last query, safely inside a conditional block ensuring at least one query was made
+            print(connection.queries[-1])  # Safer usage
+            return render(request, 'myapp/login/trainerLogin.html', {'error': 'Invalid username or password'})
+        
+        # Print the last query, safely inside a conditional block ensuring at least one query was made
+        print(connection.queries[-1])  # Safer usage
+        
+        request.session['trainer_id'] = trainer.trainer_id
+        return redirect('trainerDashboard')
+    else:
+        return render(request, 'myapp/login/trainerLogin.html')
 
 def admin_login(request):
-    return render(request, 'myapp/login/adminLogin.html')
+    if request.method == 'POST':
+        name = request.POST.get('name').strip()
+        password = request.POST.get('password').strip()
 
-def trainer_dashboard(request):
+        # Assuming at least this query will be made
+        try:
+            admin = Admin.objects.get(name=name, password=password)
+            # Print the last query, safely inside a conditional block ensuring at least one query was made
+            print(connection.queries[-1])  # Safer usage
+        except Admin.DoesNotExist:
+            # Print the last query, safely inside a conditional block ensuring at least one query was made
+            print(connection.queries[-1])  # Safer usage
+            return render(request, 'myapp/login/adminLogin.html', {'error': 'Invalid username or password'})
+        
+        # Print the last query, safely inside a conditional block ensuring at least one query was made
+        print(connection.queries[-1])  # Safer usage
+        
+        request.session['admin_id'] = admin.admin_id
+        return redirect('adminDashboard')
+    else:
+        return render(request, 'myapp/login/adminLogin.html')
+    
+
+def trainerDashboard(request):
     return render(request, 'myapp/dashboard/trainerDashboard.html')
-def admin_dashboard(request):
+def adminDashboard(request):
     return render(request, 'myapp/dashboard/adminDashboard.html')
 
 def dashboard(request):

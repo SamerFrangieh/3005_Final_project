@@ -106,6 +106,21 @@ def dashboard(request):
     except Member.DoesNotExist:
         return redirect('memberLogin')  # Consider adding an error message or similar
 
+    # Calculate BMI
+    height_in_meters = float(member.height) / 100
+    bmi = round(float(member.weight) / (height_in_meters ** 2), 1)
+    bmi_category = ''
+    if bmi < 19:
+        bmi_category = 'Underweight'
+    elif 19 <= bmi < 25:
+        bmi_category = 'Healthy'
+    elif 25 <= bmi < 30:
+        bmi_category = 'Overweight'
+    elif 30 <= bmi < 40:
+        bmi_category = 'Obese'
+    else:
+        bmi_category = 'Extremely Obese'
+
     if request.method == 'POST':
         member.diastolic_bp = request.POST.get('diastolic')
         member.systolic_bp = request.POST.get('systolic')
@@ -114,10 +129,10 @@ def dashboard(request):
         member.fitness_goal = request.POST.get('fitness_goals')
         member.save()
         messages.success(request, "Profile updated successfully!")
-        context = {'member': member}
+        context = {'member': member, 'bmi': bmi, 'bmi_category': bmi_category}
         return render(request, 'myapp/dashboard/index.html', context)
 
-    context = {'member': member}
+    context = {'member': member, 'bmi': bmi, 'bmi_category': bmi_category}
     return render(request, 'myapp/dashboard/index.html', context)
 
 

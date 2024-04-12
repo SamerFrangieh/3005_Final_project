@@ -128,6 +128,7 @@ def dashboard(request):
         member.height = request.POST.get('Height')
         member.weight = request.POST.get('Weight')
         member.fitness_goal = request.POST.get('fitness_goals')
+        member.act_levels = request.POST.get('act_levels')
         member.save()
         messages.success(request, "Profile updated successfully!")
         context = {'member': member, 'bmi': bmi, 'bmi_category': bmi_category}

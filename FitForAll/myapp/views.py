@@ -175,18 +175,53 @@ def dashboard(request):
     except Member.DoesNotExist:
         return redirect('memberLogin')  # Consider adding an error message or similar
 
+    # Calculate BMI
+    height_in_meters = float(member.height) / 100
+    bmi = round(float(member.weight) / (height_in_meters ** 2), 1)
+    bmi_category = ''
+    if bmi < 19:
+        bmi_category = 'Underweight 🟦'
+    elif 19 <= bmi < 25:
+        bmi_category = 'Healthy ✅'
+    elif 25 <= bmi < 30:
+        bmi_category = 'Overweight 🟨'
+    elif 30 <= bmi < 40:
+        bmi_category = 'Obese 🟧'
+    else:
+        bmi_category = 'Extremely Obese 🟥'
+
+
+    # Calculate BP rating
+    bp_health = ''
+    bp = str(member.systolic_bp) + '/' + str(member.diastolic_bp)
+    if member.systolic_bp >= 180 or member.diastolic_bp >= 120:
+        bp_health = 'High: Stage 2 Hypertension'
+    elif 160 <= member.systolic_bp < 180 or 100 <= member.diastolic_bp < 110:
+        bp_health = 'High: Stage 1 Hypertension'
+    elif 140 <= member.systolic_bp < 160 or 90 <= member.diastolic_bp < 100:
+        bp_health = 'Prehypertension'
+    elif 120 <= member.systolic_bp < 140 and member.diastolic_bp < 90:
+        bp_health = 'Normal'
+    elif member.systolic_bp < 120 and member.diastolic_bp < 80:
+        bp_health = 'Low'
+    else:
+        bp_health = 'Consult a doctor'
+
+
+
     if request.method == 'POST':
         member.diastolic_bp = request.POST.get('diastolic')
         member.systolic_bp = request.POST.get('systolic')
         member.height = request.POST.get('Height')
         member.weight = request.POST.get('Weight')
         member.fitness_goal = request.POST.get('fitness_goals')
+        member.act_levels = request.POST.get('act_levels')
         member.save()
         messages.success(request, "Profile updated successfully!")
-        context = {'member': member}
+        context = {'member': member, 'bmi': bmi, 'bmi_category': bmi_category, 'bp_health': bp_health, 'bp': bp}
         return render(request, 'myapp/dashboard/index.html', context)
 
-    context = {'member': member}
+    context = {'member': member, 'bmi': bmi, 'bmi_category': bmi_category, 'bp_health': bp_health, 'bp': bp}
     return render(request, 'myapp/dashboard/index.html', context)
 
 

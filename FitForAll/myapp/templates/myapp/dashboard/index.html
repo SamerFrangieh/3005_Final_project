@@ -78,7 +78,7 @@
             font-size: 20px;
         }
         .dashboard-content{
-            display: flex;
+            
             gap: 10%;
         }
         .dashboard-content > div > h3{
@@ -92,19 +92,26 @@
         .routines{
             background-color: #C5EBAA;
             border: 5px solid black;
+            padding-bottom: 30px;
         }
         .Achievements{
             background-color: #F6F193;
             border: 5px solid black;
+            padding-bottom: 30px;
         }
         .stats{
             background-color: #F2C18D;
             border: 5px solid black;
             margin: 0;
+            padding-bottom: 30px;
         }
         .bmi{
             display: inline-flex;
             margin-top: 0;
+        }
+        .days-split{
+            display: flex;
+            justify-content: space-around;
         }
     </style>
 </head>
@@ -196,6 +203,17 @@
             </select><br>
         
         </div>
+        <div style="margin-bottom: 20px;">
+            <!-- Activity levels per week -->
+            <label for="act_levels">How many times a week do you train:</label><br>
+            <select id="act_levels" name="act_levels" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+                <option value="1-3 x times a week" {% if member.act_levels == '1-3 x times a week' %}selected{% endif %} style="display: block; margin-bottom: 5px;">1-3 x times a week</option>
+                <option value="3-5 x times a week" {% if member.act_levels == '3-5 x times a week' %}selected{% endif %}>3-5 x times a week</option>
+                <option value="5-6 x times a week" {% if member.act_levels == '5-6 x times a week' %}selected{% endif %}>5-6 x times a week</option>
+                <option value="6-7 x times a week" {% if member.act_levels == '6-7 x times a week' %}selected{% endif %}>6-7 x times a week</option>
+            </select><br>
+        
+        </div>
             
                 <button type="submit" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Update Profile</button>
             </form>
@@ -211,6 +229,15 @@
             <div class="routines">
                 <h3> 🏋🏻‍♀️Exercise Routines🏋🏻‍♀️:</h3>
                 <!-- Dynamically loaded content goes here -->
+                <div class="days-split">
+                    <div><h4>Monday:</h4></div>
+                    <div><h4>Tuesday:</h4></div>
+                    <div><h4>Wednsday:</h4></div>
+                    <div><h4>Thursday:</h4></div>
+                    <div><h4>Friday:</h4></div>
+                    <div><h4>Saturday:</h4></div>
+                    <div><h4>Sunday:</h4></div>
+                </div>
             </div>
             <div class="Achievements">
 
@@ -223,10 +250,16 @@
             <div class="stats">
                 <h3>🧬Health Statistics🧬:</h3>
                 <div class="bmi">
-                    <h4>Your Bmi is: </h4>
-                    <p> <!--print bmi here --> </p>
+                    <h4>Your BMI is: <br> <br> {{ bmi }} - {{ bmi_category }}</h4>
+                
+                </div>
+                <hr>
+                <div class="bp">
+                    <h4> Blood Pressure:<br> <br> Your blood pressure of {{bp}} is {{bp_health}}</h4>
                 </div>
                 <!-- Dynamically loaded content goes here -->
+                <!--Samer test-->
+                
             </div>
         </div>
     </section>

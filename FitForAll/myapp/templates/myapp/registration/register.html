@@ -1,12 +1,14 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Member login</title>
     <link href="{% static 'myapp/register.css' %}" rel="stylesheet">
 </head>
+
 <body>
     <!-- nav bar -->
     <section class="nav-bar">
@@ -32,30 +34,44 @@
     <section class="nav-bar">
         <div class="box">
             <div class="stuff">
-        <div class="h1"><h2>Register</h2></div>
-        <div class="form">
-        <form>
-            <label for="fname">Username:</label><br>
-            <input type="text" id="fname" name="fname"><br>
-            <label for="lname">Password:</label><br>
-            <input type="text" id="lname" name="lname"><br>
+                <div class="h1">
+                    <h2>Register</h2>
+                </div>
+                <div class="form">
+                    <form method="post" action="{% url 'register' %}">
+
+                        {% csrf_token %}
+                        <label for="name">Name:</label><br>
+                        <input type="text" id="name" name="name" required><br>
+                        <label for="password">Password:</label><br>
+                        <input type="text" id="password" name="password" required><br>
+            <!-- Fitness Goals -->
             <label for="goals">Fitness Goals:</label><br>
-            <input type="text" id="goals" name="goals"><br>
-            <label for="height">Height in cm (ex:180cm):</label><br>
-            <input type="text" id="height" name="height"><br>
-            <label for="weight">Weight in kg (ex: 80kg):</label><br>
-            <input type="text" id="weight" name="weight"><br>
-        </form>
-        <div class="submit">
-            <button>
-                <a href="../dashboard/index.html">Register</a>
-            </button>
+            <select id="goals" name="goals">
+                <option value="lose_weight" {% if member.fitness_goal == 'lose_weight' %}selected{% endif %}>Lose Weight</option>
+                <option value="gain_muscle" {% if member.fitness_goal == 'gain_muscle' %}selected{% endif %}>Gain Muscle</option>
+                <option value="improve_endurance" {% if member.fitness_goal == 'improve_endurance' %}selected{% endif %}>Improve Endurance</option>
+                <option value="increase_flexibility" {% if member.fitness_goal == 'increase_flexibility' %}selected{% endif %}>Increase Flexibility</option>
+            </select><br>
+                        <label for="height">Height in cm (ex:180cm):</label><br>
+                        <input type="text" id="height" name="height" required><br>
+                        <label for="weight">Weight in kg (ex: 80kg):</label><br>
+                        <input type="text" id="weight" name="weight" required><br>
+                        <div class="submit">
+                            <button type="submit">Register</button>
+                        </div>
+                        {% if error %}
+                        <p>{{ error }}</p>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
-    </div>
-    </div>
-    <div class="regi">
-        <a href="../registration/register.html"><h2>Register</h2></a>
-    </div>
+        <div class="regi">
+            <a href="../registration/register.html">
+                <h2>Register</h2>
+            </a>
+        </div>
 </body>
+
 </html>

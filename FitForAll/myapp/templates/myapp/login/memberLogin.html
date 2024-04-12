@@ -1,12 +1,14 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Member login</title>
     <link href="{% static 'myapp/memLog.css' %}" rel="stylesheet">
 </head>
+
 <body>
     <!-- nav bar -->
     <section class="nav-bar">
@@ -29,25 +31,33 @@
         <h1> Fit For All </h1>
     </section>
     <!-- Login Box -->
-    <section class="login-box">
+    <section class="nav-bar">
         <div class="box">
             <div class="stuff">
-                <div class="h1"><h2>Member Sign-In</h2></div>
-                <div class="form">
-                    <form method="post">
-                        {% csrf_token %}
-                        <label for="username">Username:</label><br>
-                        <input type="text" id="username" name="username" required><br>
-                        <label for="password">Password:</label><br>
-                        <input type="password" id="password" name="password" required><br>
-                        <button type="submit">Log in</button>
-                    </form>
+                <div class="h1">
+                    <h2>Member Sign-In</h2>
                 </div>
+                <form method="post" action="{% url 'memberLogin' %}">
+
+                    {% csrf_token %}
+                    <label for="name">Name:</label><br>
+                    <input type="text" id="name" name="name" required><br>
+                    <label for="password">Password:</label><br>
+                    <input type="text" id="password" name="password" required>
+                    <div class="submit">
+                        <button type="submit">Log in</button>
+                    </div>
+                    {% if error %}
+                    <p>{{ error }}</p>
+                    {% endif %}
+                </form>
             </div>
         </div>
-    </section>
-    <div class="regi">
-        <a href="../registration/register.html"><h2>Register</h2></a>
-    </div>
+        <div class="regi">
+            <a href="../registration/register.html">
+                <h2>Register</h2>
+            </a>
+        </div>
 </body>
+
 </html>

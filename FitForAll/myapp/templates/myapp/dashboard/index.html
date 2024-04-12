@@ -77,6 +77,35 @@
         button {
             font-size: 20px;
         }
+        .dashboard-content{
+            display: flex;
+            gap: 10%;
+        }
+        .dashboard-content > div > h3{
+            font-size: 25px;
+            margin-bottom: 0px;
+        }
+        .Achievements > li{
+            list-style-type: none;
+            
+        }
+        .routines{
+            background-color: #C5EBAA;
+            border: 5px solid black;
+        }
+        .Achievements{
+            background-color: #F6F193;
+            border: 5px solid black;
+        }
+        .stats{
+            background-color: #F2C18D;
+            border: 5px solid black;
+            margin: 0;
+        }
+        .bmi{
+            display: inline-flex;
+            margin-top: 0;
+        }
     </style>
 </head>
 
@@ -105,15 +134,15 @@
         </div>
     </section>
 
-    <section class="profile-management">
-        <div class="profile" draggable="true">
+    <section class="profile-management" style="padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <div class="profile" draggable="true" style="max-width: 600px;">
             <h2>Profile Management</h2>
-            <form method="post" action="{% url 'dashboard' %}">
+            <form method="post" action="{% url 'dashboard' %} " style="padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
                 {% csrf_token %}
-                
+                <div style="margin-bottom: 20px;">
                 <!-- Blood Pressure: Systolic -->
-                <label for="systolic">Blood Pressure - Systolic (mmHg):</label><br>
-                <select id="systolic" name="systolic">
+                <label for="systolic" style="display: block; margin-bottom: 5px;">Blood Pressure - Systolic (mmHg):</label><br>
+                <select id="systolic" name="systolic" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
                     <option value="" {% if member.systolic_bp is None %}selected{% endif %}>Select...</option>
                     <option value="90" {% if member.systolic_bp == "90" %}selected{% endif %}>90 mmHg or less</option>
                     <option value="100" {% if member.systolic_bp == "100" %}selected{% endif %}>100 mmHg</option>
@@ -126,10 +155,12 @@
                     <option value="170" {% if member.systolic_bp == 170 %}selected{% endif %}>170 mmHg</option>
                     <option value="180" {% if member.systolic_bp >= "180" %}selected{% endif %}>180+ mmHg</option>
                 </select><br>
+            </div>
 
                 <!-- Blood Pressure: Diastolic -->
-                <label for="diastolic">Blood Pressure - Diastolic (mmHg):</label><br>
-                <select id="diastolic" name="diastolic">
+                <div style="margin-bottom: 20px;"> 
+                <label for="diastolic" style="display: block; margin-bottom: 5px;">Blood Pressure - Diastolic (mmHg):</label><br>
+                <select id="diastolic" name="diastolic" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
                     <option value="" {% if member.diastolic_bp is None %}selected{% endif %}>Select...</option>
                     <option value="30" {% if member.diastolic_bp == "30" %}selected{% endif %}>30 mmHg or less</option>
                     <option value="40" {% if member.diastolic_bp == "40" %}selected{% endif %}>40 mmHg</option>
@@ -142,24 +173,31 @@
                     <option value="110" {% if member.diastolic_bp == "110" %}selected{% endif %}>110 mmHg</option>
                     <option value="120" {% if member.diastolic_bp >= "120" %}selected{% endif %}>120++ mmHg</option>
                 </select><br>
+        </div>
             <!-- Height in cm -->
-            <label for="Height">Height in cm:</label><br>
-            <input type="text" id="Height" name="Height" required value="{{ member.height|default_if_none:'' }}"><br>
-
+            <div style="margin-bottom: 20px;">
+            <label for="Height" style="display: block; margin-bottom: 5px;">Height in cm:</label><br>
+            <input type="text" id="Height" name="Height" required value="{{ member.height|default_if_none:'' }}" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"><br>
+        </div>
             <!-- Weight in kg -->
-            <label for="Weight">Weight in kg:</label><br>
-            <input type="text" id="Weight" name="Weight" required value="{{ member.weight|default_if_none:'' }}"><br>
+        <div style="margin-bottom: 20px;">
+            <label for="Weight" style="display: block; margin-bottom: 5px;">Weight in kg:</label><br>
+            <input type="text" id="Weight" name="Weight" required value="{{ member.weight|default_if_none:'' }}" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"><br>
+        </div>
 
+        <div style="margin-bottom: 20px;">
             <!-- Fitness Goals -->
             <label for="fitness-goals">Fitness Goals:</label><br>
-            <select id="fitness_goals" name="fitness_goals">
-                <option value="lose_weight" {% if member.fitness_goal == 'lose_weight' %}selected{% endif %}>Lose Weight</option>
+            <select id="fitness_goals" name="fitness_goals" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+                <option value="lose_weight" {% if member.fitness_goal == 'lose_weight' %}selected{% endif %} style="display: block; margin-bottom: 5px;">Lose Weight</option>
                 <option value="gain_muscle" {% if member.fitness_goal == 'gain_muscle' %}selected{% endif %}>Gain Muscle</option>
                 <option value="improve_endurance" {% if member.fitness_goal == 'improve_endurance' %}selected{% endif %}>Improve Endurance</option>
                 <option value="increase_flexibility" {% if member.fitness_goal == 'increase_flexibility' %}selected{% endif %}>Increase Flexibility</option>
             </select><br>
+        
+        </div>
             
-                <button type="submit">Update Profile</button>
+                <button type="submit" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Update Profile</button>
             </form>
             
 
@@ -170,14 +208,26 @@
     <section class="personalized-dashboard">
         <h2>Personalized Dashboard</h2>
         <div class="dashboard-content">
-            <p>Exercise Routines:</p>
-            <!-- Dynamically loaded content goes here -->
+            <div class="routines">
+                <h3> 🏋🏻‍♀️Exercise Routines🏋🏻‍♀️:</h3>
+                <!-- Dynamically loaded content goes here -->
+            </div>
+            <div class="Achievements">
 
-            <p>Fitness Achievements:</p>
-            <!-- Dynamically loaded content goes here -->
-
-            <p>Health Statistics:</p>
-            <!-- Dynamically loaded content goes here -->
+                <h3> 🏆Fitness Achievements🏆:</h3>
+                <!-- Dynamically loaded content goes here -->
+                <li>🥇 Started Training Journey</li>
+                <li>🥇 Chosen a fitness goal</li>
+                <li></li>
+            </div>
+            <div class="stats">
+                <h3>🧬Health Statistics🧬:</h3>
+                <div class="bmi">
+                    <h4>Your Bmi is: </h4>
+                    <p> <!--print bmi here --> </p>
+                </div>
+                <!-- Dynamically loaded content goes here -->
+            </div>
         </div>
     </section>
 

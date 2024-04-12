@@ -14,6 +14,7 @@ class Member(models.Model):
     diastolic_bp = models.IntegerField(verbose_name="Diastolic Blood Pressure", null=True)
     systolic_bp = models.IntegerField(verbose_name="Systolic Blood Pressure", null=True)
     fitness_goal = models.CharField(max_length=255, blank=True, verbose_name="Fitness Goal")
+    act_levels = models.CharField(max_length=255, blank=True, verbose_name="Activity Levels")
 
 class Trainer(models.Model):
     trainer_id = models.AutoField(primary_key=True)

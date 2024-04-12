@@ -27,10 +27,58 @@
             </li>
         </div>
     </section>
-    <!-- title -->
-    <section>
-        <h1> Fit For All </h1>
+
+    <section class="title-yes">
+        <h1>Fit For All - Trainer Dashboard</h1>
     </section>
+<!-- Availability Setting Section -->
+<!-- Availability Setting Section -->
+<section class="availability-section">
+    <h3>Set Your Weekly Availability:</h3>
+    <form method="post" action="{% url 'trainerDashboard' %}">
+        {% csrf_token %}
+        {% for day, index in days_of_week %}
+        <div>
+            <input type="checkbox" id="{{ day }}" name="days" value="{{ index }}">
+            <label for="{{ day }}">{{ day }}</label>
+            Check-In:
+            <select name="check_in_{{ index }}">
+                {% for hour in 24|hour_range %}
+                <option value="{{ hour }}">{{ hour }}:00</option>
+                {% endfor %}
+            </select>
+            Check-Out:
+            <select name="check_out_{{ index }}">
+                {% for hour in 24|hour_range %}
+                <option value="{{ hour }}">{{ hour }}:00</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% endfor %}
+        <button type="submit">Update Availability</button>
+    </form>
+</section>
+
+
+<!-- Member Search Section -->
+<section class="search-section">
+    <h3>Search for a Member:</h3>
+    <form method="post" action="{% url 'trainerDashboard' %}">
+        {% csrf_token %}
+        <input type="text" name="member_name" placeholder="Enter member name">
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Displaying search results -->
+    <div class="search-results">
+        <h4>Search Results:</h4>
+        <ul>
+            {% for member in members %}
+            <li>{{ member.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
 
 </body>
 

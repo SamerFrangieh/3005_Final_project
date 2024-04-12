@@ -124,7 +124,7 @@ def dashboard(request):
 
     # Calculate BP rating
     bp_health = ''
-    bp = str(member.diastolic_bp) + '/' + str(member.systolic_bp)
+    bp = str(member.systolic_bp) + '/' + str(member.diastolic_bp)
     if member.systolic_bp >= 180 or member.diastolic_bp >= 120:
         bp_health = 'High: Stage 2 Hypertension'
     elif 160 <= member.systolic_bp < 180 or 100 <= member.diastolic_bp < 110:

@@ -111,15 +111,15 @@ def dashboard(request):
     bmi = round(float(member.weight) / (height_in_meters ** 2), 1)
     bmi_category = ''
     if bmi < 19:
-        bmi_category = 'Underweight'
+        bmi_category = 'Underweight 🟦'
     elif 19 <= bmi < 25:
-        bmi_category = 'Healthy'
+        bmi_category = 'Healthy ✅'
     elif 25 <= bmi < 30:
-        bmi_category = 'Overweight'
+        bmi_category = 'Overweight 🟨'
     elif 30 <= bmi < 40:
-        bmi_category = 'Obese'
+        bmi_category = 'Obese 🟧'
     else:
-        bmi_category = 'Extremely Obese'
+        bmi_category = 'Extremely Obese 🟥'
 
 
     # Calculate BP rating

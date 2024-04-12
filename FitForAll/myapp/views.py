@@ -45,6 +45,7 @@ def register(request):
         return render(request, 'myapp/registration/register.html')
 
 def train_login(request):
+    
     if request.method == 'POST':
         name = request.POST.get('name').strip()
         password = request.POST.get('password').strip()
@@ -90,9 +91,77 @@ def admin_login(request):
     else:
         return render(request, 'myapp/login/adminLogin.html')
     
-
 def trainerDashboard(request):
-    return render(request, 'myapp/dashboard/trainerDashboard.html')
+    print("Loading trainer dashboard...")  # Debugging line
+    days_of_week = {
+        '0': 'Sunday', '1': 'Monday', '2': 'Tuesday',
+        '3': 'Wednesday', '4': 'Thursday', '5': 'Friday', '6': 'Saturday'
+    }
+    hours = list(range(24))  # Generate a list of hours from 0 to 23
+    members = []
+
+    trainer_id = request.session.get('trainer_id')
+    print(f"Session Trainer ID: {trainer_id}")  # Debugging line
+    if not trainer_id:
+        return redirect('trainerLogin')
+
+    trainer = Trainer.objects.filter(trainer_id=trainer_id).first()
+    if not trainer:
+        return redirect('trainerLogin')
+    print(f"Trainer fetched: {trainer.name}")  # Debugging line
+
+    # Fetch trainer availability and format it into structured keys
+    availabilities = TrainerAvailability.objects.filter(trainer=trainer).order_by('day_of_week')
+    structured_availabilities = {
+        day: {
+            'checked': False,
+            'check_in': None,
+            'check_out': None
+        } for day in days_of_week.values()
+    }
+
+    for availability in availabilities:
+        day_key = days_of_week[str(availability.day_of_week)]
+        structured_availabilities[day_key]['checked'] = True
+        structured_availabilities[day_key]['check_in'] = availability.check_in.strftime('%H:00')
+        structured_availabilities[day_key]['check_out'] = availability.check_out.strftime('%H:00')
+    print(f"Structured availabilities: {structured_availabilities}")  # Debugging line
+
+    if request.method == 'POST':
+        print(f"POST data received: {request.POST}")  # Debugging line
+        if 'member_name' in request.POST:
+            member_name = request.POST.get('member_name', '')
+            members = Member.objects.filter(name__icontains=member_name)
+        else:
+            days_selected = request.POST.getlist('days')
+            for day_value in days_of_week.keys():
+                day_name = days_of_week[day_value]
+                check_in_time = request.POST.get(f'check_in_{day_value}', None)
+                check_out_time = request.POST.get(f'check_out_{day_value}', None)
+                print(f"Processing day {day_name}: Selected - {day_value in days_selected}, Check-in: {check_in_time}, Check-out: {check_out_time}")  # Debugging line
+                if day_value in days_selected and check_in_time and check_out_time:
+                    TrainerAvailability.objects.update_or_create(
+                        trainer=trainer,
+                        day_of_week=int(day_value),
+                        defaults={
+                            'check_in': f"{check_in_time}:00",
+                            'check_out': f"{check_out_time}:00"
+                        }
+                    )
+                elif day_value not in days_selected:
+                    TrainerAvailability.objects.filter(trainer=trainer, day_of_week=int(day_value)).delete()
+                
+            messages.success(request, 'Your availability has been updated successfully!')
+            return redirect('trainerDashboard')
+
+    context = {
+        'days_of_week': days_of_week,
+        'hours': hours,
+        'members': members,
+        'availabilities': structured_availabilities
+    }
+    return render(request, 'myapp/dashboard/trainerDashboard.html', context)
+
 def adminDashboard(request):
     return render(request, 'myapp/dashboard/adminDashboard.html')
 

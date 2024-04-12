@@ -1,12 +1,85 @@
 {% load static %}
+{% load custom_filters %}
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fit For All</title>
+    <title>Member dashboard</title>
     <link href="{% static 'myapp/dashboard.css' %}" rel="stylesheet">
+    <style>
+        .nav {
+            display: flex;
+            margin-bottom: 0px;
+            background-color: rgb(82, 109, 130);
+            gap: 10%;
+            margin-left: 0;
+            padding: 10px;
+            border-top: 5px solid rgb(34, 40, 49);
+            border-bottom: 5px solid rgb(34, 40, 49);
+        }
+
+        .nav-links {
+            list-style-type: none;
+        }
+
+        .nav-item>a {
+            color: aliceblue;
+        }
+
+        .nav-item {
+            font-size: 25px;
+        }
+
+        .nav-logo {
+            font-size: 50px;
+        }
+
+        .box {
+            height: 50vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .stuff {
+            margin-top: 0px;
+            background-color: rgb(82, 109, 130);
+            width: 450px;
+            vertical-align: middle;
+            border: 5px solid black;
+        }
+
+        .title-yes {
+            display: flex;
+            gap: 10px;
+        }
+
+        h1 {
+            color: blue;
+            font-size: 100px;
+            margin: 0;
+            margin-top: 10px;
+            background-color: orange;
+            width: 450px;
+            border: 5px solid black;
+        }
+
+        h2 {
+            color: black;
+            font-size: 50px;
+        }
+
+        .stuff>div {
+            margin-left: 10px;
+
+        }
+
+        button {
+            font-size: 20px;
+        }
+    </style>
 </head>
 
 <body>
@@ -17,13 +90,13 @@
                 <div class="nav-logo nav-item">🏋️</div>
             </li>
             <li>
-                <div class="nav-item"><a href="../">IDK yet </a></div>
+                <div class="nav-item"> <a href="../login/memberLogin.html">Member Log-In </a></div>
             </li>
             <li>
-                <div class="nav-item"> <a href="../">Resume </a></div>
+                <div class="nav-item"> <a href="../login/trainerLogin.html">Trainer Log-In </a></div>
             </li>
             <li>
-                <div class="nav-item"> <a href="../">Projects </a></div>
+                <div class="nav-item"> <a href="../login/adminLogin.html">Admin Log-In </a></div>
             </li>
         </div>
     </section>
@@ -33,31 +106,37 @@
     </section>
 <!-- Availability Setting Section -->
 <!-- Availability Setting Section -->
-<section class="availability-section">
-    <h3>Set Your Weekly Availability:</h3>
-    <form method="post" action="{% url 'trainerDashboard' %}">
-        {% csrf_token %}
-        {% for day, index in days_of_week %}
-        <div>
-            <input type="checkbox" id="{{ day }}" name="days" value="{{ index }}">
-            <label for="{{ day }}">{{ day }}</label>
-            Check-In:
-            <select name="check_in_{{ index }}">
-                {% for hour in 24|hour_range %}
-                <option value="{{ hour }}">{{ hour }}:00</option>
-                {% endfor %}
-            </select>
-            Check-Out:
-            <select name="check_out_{{ index }}">
-                {% for hour in 24|hour_range %}
-                <option value="{{ hour }}">{{ hour }}:00</option>
-                {% endfor %}
-            </select>
-        </div>
-        {% endfor %}
-        <button type="submit">Update Availability</button>
-    </form>
-</section>
+{% load custom_filters %}
+
+<form method="post" action="{% url 'trainerDashboard' %}">
+    {% csrf_token %}
+    {% for day_value, day_name in days_of_week.items %}
+    
+    <div>
+        {% with availabilities|get_item:day_name as day_availability %}
+        <input type="checkbox" id="{{ day_name }}" name="days" value="{{ day_value }}" {% if day_availability.checked %}checked{% endif %}>
+        <label for="{{ day_name }}">{{ day_name }}</label>
+        Check-In: 
+        <select name="check_in_{{ day_value }}">
+            {% for hour in hours %}
+            <option value="{{ hour }}:00" {% if day_availability.check_in == hour|format_hour %}selected{% endif %}>{{ hour }}:00</option>
+
+            {% endfor %}
+
+        </select>
+        Check-Out: 
+        <select name="check_out_{{ day_value }}">
+            {% for hour in hours %}
+<option value="{{ hour }}:00" {% if day_availability.check_out == hour|format_hour %}selected{% endif %}>{{ hour }}:00</option>
+{% endfor %}
+
+        </select>
+        {% endwith %}
+    </div>
+    {% endfor %}
+    <button type="submit">Update Availability</button>
+</form>
+
 
 
 <!-- Member Search Section -->
@@ -79,6 +158,9 @@
         </ul>
     </div>
 </section>
+
+
+
 
 </body>
 

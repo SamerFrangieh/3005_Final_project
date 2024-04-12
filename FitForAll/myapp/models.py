@@ -19,8 +19,25 @@ class Trainer(models.Model):
     trainer_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     password = models.CharField(max_length=255) 
-    availability = models.JSONField(null=True)
 
+
+class TrainerAvailability(models.Model):
+    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, related_name='availabilities')
+    day_of_week = models.IntegerField(choices=[
+        (0, 'Sunday'),
+        (1, 'Monday'),
+        (2, 'Tuesday'),
+        (3, 'Wednesday'),
+        (4, 'Thursday'),
+        (5, 'Friday'),
+        (6, 'Saturday'),
+    ])
+    check_in = models.TimeField()
+    check_out = models.TimeField()
+
+    def __str__(self):
+        days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        return f"{self.trainer.name} - {days[self.day_of_week]}"
 class Admin(models.Model):
     admin_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)

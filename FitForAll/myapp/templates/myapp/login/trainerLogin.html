@@ -38,20 +38,22 @@
                     <h2>Trainer Sign-In</h2>
                 </div>
                 <div class="form">
-                    <form method="post" action="{% url 'trainerLogin' %}">
+                    <div class="form">
+                        <form method="post" action="{% url 'trainerLogin' %}">
 
-                        {% csrf_token %}
-                        <label for="name">Name:</label><br>
-                        <input type="text" id="name" name="name" required><br>
-                        <label for="password">Password:</label><br>
-                        <input type="text" id="password" name="password" required>
-                        <div class="submit">
-                            <button type="submit">Log in</button>
-                        </div>
-                        {% if error %}
-                        <p>{{ error }}</p>
-                        {% endif %}
-                    </form>
+                            {% csrf_token %}
+                            <label for="name">Name:</label><br>
+                            <input type="text" id="name" name="name" required><br>
+                            <label for="password">Password:</label><br>
+                            <input type="text" id="password" name="password" required>
+                            <div class="submit">
+                                <button type="submit">Log in</button>
+                            </div>
+                            {% if error %}
+                            <p>{{ error }}</p>
+                            {% endif %}
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

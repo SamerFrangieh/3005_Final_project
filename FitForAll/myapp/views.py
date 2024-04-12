@@ -121,6 +121,7 @@ def dashboard(request):
     else:
         bmi_category = 'Extremely Obese'
 
+
     if request.method == 'POST':
         member.diastolic_bp = request.POST.get('diastolic')
         member.systolic_bp = request.POST.get('systolic')

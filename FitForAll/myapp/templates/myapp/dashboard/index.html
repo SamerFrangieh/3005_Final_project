@@ -139,6 +139,101 @@
         .Achievements > li{
             font-size: 25px;
         }
+        /* Training and Schedule Sections Styling */
+        section {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        h2 {
+            color: #333;
+            font-size: 24px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #dee2e6;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #495057;
+        }
+
+        input[type="date"],
+        input[type="time"],
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color: #e9ecef;
+        }
+
+        td form button {
+            margin: 0;
+            width: auto;
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+        /* Highlighting the active form area */
+        form input:focus,
+        form select:focus {
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+
+        /* Styling for no sessions message */
+        .scheduled-sessions > p {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+        }
+
         
     </style>
 </head>

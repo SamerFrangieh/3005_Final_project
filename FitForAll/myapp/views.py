@@ -44,6 +44,7 @@ def register(request):
             return render(request, 'myapp/registration/register.html')
     else:
         return render(request, 'myapp/registration/register.html')
+    
 
 def train_login(request):
     
@@ -69,6 +70,7 @@ def train_login(request):
     else:
         return render(request, 'myapp/login/trainerLogin.html')
 
+#ADMIN METHODS --------------------------------------------------------
 def admin_login(request):
     if request.method == 'POST':
         name = request.POST.get('name').strip()
@@ -92,6 +94,42 @@ def admin_login(request):
     else:
         return render(request, 'myapp/login/adminLogin.html')
     
+def admin_dashboard(request):
+    if not request.session.get('admin_id'):
+        return redirect('adminLogin')
+
+    # Add Equipment
+    if 'add' in request.POST:
+        add_form = EquipmentMaintenance(request.POST)
+        if add_form.is_valid():
+            add_form.save()
+            return redirect('adminDashboard')
+    else:
+        add_form = EquipmentMaintenance()
+
+    # List of Equipment
+    equipments = EquipmentMaintenance.objects.all()
+
+    # Context to pass to the template
+    context = {
+        'equipments': equipments,
+        'add_form': add_form,
+    }
+
+    # Delete or Schedule Maintenance
+    if request.method == 'POST':
+        if 'delete' in request.POST:
+            equipment_id = request.POST.get('delete')
+            EquipmentMaintenance.objects.filter(id=equipment_id).delete()
+        elif 'schedule' in request.POST:
+            equipment_id = request.POST.get('schedule')
+            equipment = EquipmentMaintenance.objects.get(id=equipment_id)
+            schedule_form = EquipmentMaintenance(request.POST, instance=equipment)
+            if schedule_form.is_valid():
+                schedule_form.save()
+                
+    return render(request, 'myapp/dashboard/adminDashboard.html', context)
+
 def trainerDashboard(request):
     print("Loading trainer dashboard...")  # Debugging line
     days_of_week = {
@@ -495,5 +533,6 @@ def member_login(request):
         return redirect('dashboard')
     else:
         return render(request, 'myapp/login/memberLogin.html')
+    
     
 

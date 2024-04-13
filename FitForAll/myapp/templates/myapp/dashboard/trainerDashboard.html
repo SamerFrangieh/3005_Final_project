@@ -287,7 +287,12 @@
         <h4>Search Results:</h4>
         <ul>
             {% for member in members %}
-            <li>{{ member.name }}</li>
+            <li>
+                <!-- Link to Member Profile Page -->
+                <a href="{% url 'member_profile' member_id=member.member_id %}">
+                    {{ member.name }}
+                </a>
+            </li>
             {% endfor %}
         </ul>
     </div>

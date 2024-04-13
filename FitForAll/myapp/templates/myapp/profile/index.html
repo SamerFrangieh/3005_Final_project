@@ -268,95 +268,57 @@
         <h2 style="color: orange;font-size: 50px; text-shadow: 2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000,
         1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;">Welcome to your dashboard <span style="color: #007bff; ">{{name_pos}}</span>!!</h2>
     </div>
-
     <section class="profile-management" style="padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
         <div class="profile" draggable="true" style="max-width: 600px;">
             <h2>Profile Management</h2>
-            <form method="post" action="{% url 'dashboard' %} " style="padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
-                {% csrf_token %}
-                <div style="margin-bottom: 20px;">
+            <div style="padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+    
                 <!-- Blood Pressure: Systolic -->
-                <label for="systolic" style="display: block; margin-bottom: 5px;">Blood Pressure - Systolic (mmHg):</label><br>
-                <select id="systolic" name="systolic" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
-                    <option value="" {% if member.systolic_bp is None %}selected{% endif %}>Select...</option>
-                    <option value="90" {% if member.systolic_bp == "90" %}selected{% endif %}>90 mmHg or less</option>
-                    <option value="100" {% if member.systolic_bp == "100" %}selected{% endif %}>100 mmHg</option>
-                    <option value="110" {% if member.systolic_bp == "110" %}selected{% endif %}>110 mmHg</option>
-                    <option value="120" {% if member.systolic_bp == "120" %}selected{% endif %}>120 mmHg</option>
-                    <option value="130" {% if member.systolic_bp == "130" %}selected{% endif %}>130 mmHg</option>
-                    <option value="140" {% if member.systolic_bp == "140" %}selected{% endif %}>140 mmHg</option>
-                    <option value="150" {% if member.systolic_bp == "150" %}selected{% endif %}>150 mmHg</option>
-                    <option value="160" {% if member.systolic_bp == "160" %}selected{% endif %}>160 mmHg</option>
-                    <option value="170" {% if member.systolic_bp == 170 %}selected{% endif %}>170 mmHg</option>
-                    <option value="180" {% if member.systolic_bp >= "180" %}selected{% endif %}>180+ mmHg</option>
-                </select><br>
-            </div>
-
+                <div style="margin-bottom: 20px;">
+                    <strong>Blood Pressure - Systolic (mmHg):</strong>
+                    <p>{{ member.systolic_bp }} mmHg</p>
+                </div>
+    
                 <!-- Blood Pressure: Diastolic -->
-                <div style="margin-bottom: 20px;"> 
-                <label for="diastolic" style="display: block; margin-bottom: 5px;">Blood Pressure - Diastolic (mmHg):</label><br>
-                <select id="diastolic" name="diastolic" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
-                    <option value="" {% if member.diastolic_bp is None %}selected{% endif %}>Select...</option>
-                    <option value="30" {% if member.diastolic_bp == "30" %}selected{% endif %}>30 mmHg or less</option>
-                    <option value="40" {% if member.diastolic_bp == "40" %}selected{% endif %}>40 mmHg</option>
-                    <option value="50" {% if member.diastolic_bp == "50" %}selected{% endif %}>50 mmHg</option>
-                    <option value="60" {% if member.diastolic_bp == "60" %}selected{% endif %}>60 mmHg</option>
-                    <option value="70" {% if member.diastolic_bp == "70" %}selected{% endif %}>70 mmHg</option>
-                    <option value="80" {% if member.diastolic_bp == "80" %}selected{% endif %}>80 mmHg</option>
-                    <option value="90" {% if member.diastolic_bp == "90" %}selected{% endif %}>90 mmHg</option>
-                    <option value="100" {% if member.diastolic_bp == "100" %}selected{% endif %}>100 mmHg</option>
-                    <option value="110" {% if member.diastolic_bp == "110" %}selected{% endif %}>110 mmHg</option>
-                    <option value="120" {% if member.diastolic_bp >= "120" %}selected{% endif %}>120++ mmHg</option>
-                </select><br>
-        </div>
-            <!-- Height in cm -->
-            <div style="margin-bottom: 20px;">
-            <label for="Height" style="display: block; margin-bottom: 5px;">Height in cm:</label><br>
-            <input type="text" id="Height" name="Height" required value="{{ member.height|default_if_none:'' }}" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"><br>
-        </div>
-            <!-- Weight in kg -->
-        <div style="margin-bottom: 20px;">
-            <label for="Weight" style="display: block; margin-bottom: 5px;">Weight in kg:</label><br>
-            <input type="text" id="Weight" name="Weight" required value="{{ member.weight|default_if_none:'' }}" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"><br>
-        </div>
-
-            <!-- Age -->
-            <div style="margin-bottom: 20px;">
-                <label for="Age" style="display: block; margin-bottom: 5px;">Age:</label><br>
-                <input type="text" id="Age" name="Age" required value="{{ member.age|default_if_none:'' }}" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"><br>
+                <div style="margin-bottom: 20px;">
+                    <strong>Blood Pressure - Diastolic (mmHg):</strong>
+                    <p>{{ member.diastolic_bp }} mmHg</p>
+                </div>
+    
+                <!-- Height in cm -->
+                <div style="margin-bottom: 20px;">
+                    <strong>Height in cm:</strong>
+                    <p>{{ member.height }}</p>
+                </div>
+    
+                <!-- Weight in kg -->
+                <div style="margin-bottom: 20px;">
+                    <strong>Weight in kg:</strong>
+                    <p>{{ member.weight }}</p>
+                </div>
+    
+                <!-- Age -->
+                <div style="margin-bottom: 20px;">
+                    <strong>Age:</strong>
+                    <p>{{ member.age }}</p>
+                </div>
+    
+                <!-- Fitness Goals -->
+                <div style="margin-bottom: 20px;">
+                    <strong>Fitness Goals:</strong>
+                    <p>{{ member.fitness_goal|title }}</p>
+                </div>
+    
+                <!-- Activity levels per week -->
+                <div style="margin-bottom: 20px;">
+                    <strong>How many times a week do you train:</strong>
+                    <p>{{ member.act_levels }}</p>
+                </div>
+    
             </div>
-
-        <div style="margin-bottom: 20px;">
-            <!-- Fitness Goals -->
-            <label for="fitness-goals">Fitness Goals:</label><br>
-            <select id="fitness_goals" name="fitness_goals" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
-                <option value="lose_weight" {% if member.fitness_goal == 'lose_weight' %}selected{% endif %} style="display: block; margin-bottom: 5px;">Lose Weight</option>
-                <option value="gain_muscle" {% if member.fitness_goal == 'gain_muscle' %}selected{% endif %}>Gain Muscle</option>
-                <option value="improve_endurance" {% if member.fitness_goal == 'improve_endurance' %}selected{% endif %}>Improve Endurance</option>
-                <option value="increase_flexibility" {% if member.fitness_goal == 'increase_flexibility' %}selected{% endif %}>Increase Flexibility</option>
-            </select><br>
-        
-        </div>
-        <div style="margin-bottom: 20px;">
-            <!-- Activity levels per week -->
-            <label for="act_levels">How many times a week do you train:</label><br>
-            <select id="act_levels" name="act_levels" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
-                <option value="1-3 x times a week" {% if member.act_levels == '1-3 x times a week' %}selected{% endif %} style="display: block; margin-bottom: 5px;">1-3 x times a week</option>
-                <option value="3-5 x times a week" {% if member.act_levels == '3-5 x times a week' %}selected{% endif %}>3-5 x times a week</option>
-                <option value="5-6 x times a week" {% if member.act_levels == '5-6 x times a week' %}selected{% endif %}>5-6 x times a week</option>
-                <option value="6-7 x times a week" {% if member.act_levels == '6-7 x times a week' %}selected{% endif %}>6-7 x times a week</option>
-            </select><br>
-        
-        </div>
-            
-                <button type="submit" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Update Profile</button>
-            </form>
-            
-
-
         </div>
     </section>
-
+    
     <section class="personalized-dashboard">
         <h2>Personalized Dashboard</h2>
         <div class="dashboard-content">
@@ -423,29 +385,7 @@
         </div>
     </section>
 
-    <section class="training-signup">
-        <h2>Schedule Personal Training Session</h2>
-        <form method="POST">
-            {% csrf_token %}
-            <label for="session_date">Select Date:</label>
-            <input type="date" id="session_date" name="session_date" value="{{ selected_date }}" required>
-            <button type="submit">Check Availability</button>
-        </form>
-        {% if available_trainers %}
-    <h4>Available Trainers on {{ selected_date }}</h4>
-    <form method="POST" action="{% url 'dashboard' %}">
-        {% csrf_token %}
-        <input type="hidden" name="session_date" value="{{ selected_date }}">
-        <select name="trainer_session">
-            {% for trainer, time in available_trainers %}
-                <option value="{{ trainer.trainer_id }}|{{ time }}">{{ trainer.name }} at {{ time }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Book Session</button>
-    </form>
-{% endif %}
 
-    </section>
     <section class="scheduled-sessions">
         <h2>Your Scheduled Training Sessions</h2>
         <form method="POST" action="{% url 'dashboard' %}">
@@ -457,7 +397,6 @@
                         <th>Trainer</th>
                         <th>Start Time</th>
                         <th>End Time</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -467,13 +406,6 @@
                             <td>{{ session.trainer_name }}</td>
                             <td>{{ session.start_time }}</td>
                             <td>{{ session.end_time }}</td>
-                            <td>
-                                <form method="POST" action="{% url 'dashboard' %}">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="session_id" value="{{ session.session_id }}">
-                                    <button type="submit">Cancel</button>
-                                </form>
-                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -490,15 +422,6 @@
             {% for class_data in classes %}
             <li>
                 {{ class_data.class.trainer.name }} - {{ class_data.class.room.name }} - {{ class_data.class.date }} {{ class_data.class.start_time }} - {{ class_data.class.end_time }}
-                <form method="post" action="{% url 'dashboard' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="class_id" value="{{ class_data.class.group_fitness_class_id }}">
-                    {% if class_data.enrolled %}
-                        <button type="submit" name="action" value="unenroll">Unenroll</button>
-                    {% else %}
-                        <button type="submit" name="action" value="enroll">Enroll</button>
-                    {% endif %}
-                </form>
             </li>
             {% endfor %}
         </ul>

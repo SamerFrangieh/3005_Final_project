@@ -17,7 +17,7 @@ VALUES
 
 
 -- Inserting into Members
-INSERT INTO myapp_member (member_id, name, password, health_metrics, height, weight, goal_weight, weeks_to_goal, diastolic_bp, systolic_bp, fitness_goal, act_levels)
+INSERT INTO myapp_member (member_id, name, password, health_metrics, height, weight, goal_weight, weeks_to_goal, diastolic_bp, systolic_bp, fitness_goal, act_levels, age)
 VALUES 
 (1, 'John', 'password123', '{"bmi": 22, "fat_percentage": 15}', 175.5, 70.0, 65.0, 12, 80, 120, 'Lose Weight', '1-3 x times a week',19),
 (2, 'Alice', 'password456', '{"bmi": 25, "fat_percentage": 20}', 165.0, 80.0, 70.0, 10, 85, 125, 'Gain Muscle', '1-3 x times a week',19);
@@ -77,7 +77,7 @@ VALUES (1, 'dhirran', 'dhirran');
 INSERT INTO myapp_admin (admin_id, name, password)
 VALUES (2, 'admin', 'admin');
 
-INSERT INTO myapp_member (member_id, name, password, health_metrics, height, weight, goal_weight, weeks_to_goal, diastolic_bp, systolic_bp, fitness_goal, act_levels)
+INSERT INTO myapp_member (member_id, name, password, health_metrics, height, weight, goal_weight, weeks_to_goal, diastolic_bp, systolic_bp, fitness_goal, act_levels, age)
 VALUES 
 (3, 'dhirran', 'dhirran', '{"bmi": 25, "fat_percentage": 20}', 165.0, 80.0, 70.0, 10, 85, 125, 'Lose weight','1-3 x times a week',19);
 

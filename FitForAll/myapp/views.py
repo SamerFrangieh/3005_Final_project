@@ -175,6 +175,30 @@ def dashboard(request):
     except Member.DoesNotExist:
         return redirect('memberLogin')  # Consider adding an error message or similar
 
+
+
+
+    if request.method == 'POST':
+        member.diastolic_bp = request.POST.get('diastolic')
+        member.systolic_bp = request.POST.get('systolic')
+        if (member.diastolic_bp == '' or member.systolic_bp == ''):
+            member.diastolic_bp =0
+            member.systolic_bp = 0
+        member.height = request.POST.get('Height')
+        member.weight = request.POST.get('Weight')
+        member.fitness_goal = request.POST.get('fitness_goals')
+        member.act_levels = request.POST.get('act_levels')
+        member.save()
+        messages.success(request, "Profile updated successfully!")
+    try:
+        member.systolic_bp = int(member.systolic_bp)
+    except ValueError:
+        pass
+
+    try:
+        member.diastolic_bp = int(member.diastolic_bp)
+    except ValueError:
+        pass
     # Calculate BMI
     height_in_meters = float(member.height) / 100
     bmi = round(float(member.weight) / (height_in_meters ** 2), 1)

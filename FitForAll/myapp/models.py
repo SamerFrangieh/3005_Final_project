@@ -45,18 +45,60 @@ class Admin(models.Model):
     name = models.CharField(max_length=255)
     password = models.CharField(max_length=255) 
 
-class FitnessClass(models.Model):
-    class_id = models.AutoField(primary_key=True)
-    class_name = models.CharField(max_length=255)
-    room_id = models.IntegerField()
-    schedule = models.DateTimeField()
 
-class RoomBooking(models.Model):
-    booking_id = models.AutoField(primary_key=True)
-    room_id = models.IntegerField()
-    booking_date = models.DateField()
+class PersonalSession(models.Model):
+    personal_session_id = models.AutoField(primary_key=True)
+    trainer = models.ForeignKey(
+        Trainer,
+        on_delete=models.CASCADE,
+        related_name='personal_sessions'
+    )
+    member = models.ForeignKey(
+        Member,
+        on_delete=models.CASCADE,
+        related_name='personal_sessions'
+    )
+    date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
+
+
+class Room(models.Model):
+    room_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"Room {self.room_id} - {self.name}"
+
+class GroupFitnessClass(models.Model):
+    group_fitness_class_id = models.AutoField(primary_key=True)
+    trainer = models.ForeignKey(
+        Trainer,
+        on_delete=models.CASCADE,
+        related_name='group_fitness_classes'
+    )
+    room = models.ForeignKey(
+        Room,
+        on_delete=models.CASCADE,
+        related_name='group_fitness_classes'
+    )
+    date = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+
+class MemberGroupFitnessRegistration(models.Model):
+    # Foreign key to the GroupFitnessClass model
+    group_fitness_class = models.ForeignKey(
+        'GroupFitnessClass',
+        on_delete=models.CASCADE,
+        related_name='registrations'
+    )
+    member = models.ForeignKey(
+        Member,
+        on_delete=models.CASCADE,
+        related_name='group_fitness_registrations'
+    )
+    registration_date = models.DateField(auto_now_add=True)
 
 class EquipmentMaintenance(models.Model):
     equipment_id = models.AutoField(primary_key=True)

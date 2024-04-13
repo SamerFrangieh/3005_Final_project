@@ -217,6 +217,8 @@ def dashboard(request):
     # Calculate BMR
     bmr = 100
     rec_bmr = 100
+    if member.age is None:
+        member.age = 20
     bmr = int(round((88.362 + (13.397 * float(member.weight)) + (4.799 * float(member.height)) - (5.677 * float(member.age))),0))
     if member.act_levels == '1-3 x times a week':
         bmr = bmr + 800

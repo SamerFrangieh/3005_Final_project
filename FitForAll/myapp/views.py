@@ -175,7 +175,7 @@ def dashboard(request):
     except Member.DoesNotExist:
         return redirect('memberLogin')  # Consider adding an error message or similar
 
-
+    context = {}
 
 
     if request.method == 'POST':
@@ -188,6 +188,7 @@ def dashboard(request):
         member.weight = request.POST.get('Weight')
         member.fitness_goal = request.POST.get('fitness_goals')
         member.act_levels = request.POST.get('act_levels')
+        member.age = request.POST.get('Age')
         member.save()
         messages.success(request, "Profile updated successfully!")
     try:
@@ -264,20 +265,14 @@ def dashboard(request):
 
 
 
-    if request.method == 'POST':
-        member.diastolic_bp = request.POST.get('diastolic')
-        member.systolic_bp = request.POST.get('systolic')
-        member.height = request.POST.get('Height')
-        member.weight = request.POST.get('Weight')
-        member.fitness_goal = request.POST.get('fitness_goals')
-        member.act_levels = request.POST.get('act_levels')
-        member.age = request.POST.get('Age')
-        member.save()
-        messages.success(request, "Profile updated successfully!")
-        context = {'member': member, 'bmi': bmi, 'bmi_category': bmi_category, 'bp_health': bp_health, 'bp': bp, 'bmr': bmr,'rec_bmr': rec_bmr}
-        return render(request, 'myapp/dashboard/index.html', context)
+    context['member'] = member
+    context['bmi'] = bmi
+    context['bmi_category'] = bmi_category
+    context['bp_health'] = bp_health
+    context['bp'] = bp
+    context['bmr'] = bmr
+    context['rec_bmr'] = rec_bmr
 
-    context = {'member': member, 'bmi': bmi, 'bmi_category': bmi_category, 'bp_health': bp_health, 'bp': bp, 'bmr': bmr,'rec_bmr': rec_bmr}
     return render(request, 'myapp/dashboard/index.html', context)
 
 

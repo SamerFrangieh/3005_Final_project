@@ -193,7 +193,7 @@ def dashboard(request):
     # Calculate BMR
     bmr = 100
     rec_bmr = 100
-    bmr = round((88.362 + (13.397 * float(member.weight)) + (4.799 * float(member.height)) - (5.677 * float(member.age))),0)
+    bmr = int(round((88.362 + (13.397 * float(member.weight)) + (4.799 * float(member.height)) - (5.677 * float(member.age))),0))
     if member.act_levels == '1-3 x times a week':
         bmr = bmr + 800
     if member.act_levels == '3-5 x times a week':
@@ -202,6 +202,21 @@ def dashboard(request):
         bmr = bmr + 1600
     if member.act_levels == '6-7 x times a week':
         bmr = bmr + 1950
+
+    rec_bmr = bmr
+
+    if member.fitness_goal == 'lose_weight':
+        rec_bmr = rec_bmr - 239
+    
+    if member.fitness_goal == 'gain_muscle':
+        rec_bmr = rec_bmr + 226
+
+    if member.fitness_goal == 'improve_endurance':
+        rec_bmr = rec_bmr - 163
+
+    if member.fitness_goal == 'increase_flexibility':
+        rec_bmr = rec_bmr -121
+
 
 
 

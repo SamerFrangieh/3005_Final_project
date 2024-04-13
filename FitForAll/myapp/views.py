@@ -322,9 +322,50 @@ def dashboard(request):
                 messages.success(request, "Session cancelled successfully!")
             except PersonalSession.DoesNotExist:
                 messages.error(request, "Session not found or already cancelled.")
+        if request.POST.get('action') == 'enroll' and request.POST.get('class_id'):
+                
+            class_id = request.POST.get('class_id')
+            group_class = GroupFitnessClass.objects.get(group_fitness_class_id=class_id)
+            member = Member.objects.get(member_id=member_id)
             
-    print(request.POST)
-    # Fetching and logging scheduled sessions
+            MemberGroupFitnessRegistration.objects.create(
+                group_fitness_class=group_class,
+                member=member
+            )
+            messages.success(request, "Enrolled in class successfully!")
+        elif request.POST.get('action') == 'unenroll' and request.POST.get('class_id'):
+                
+            class_id = request.POST.get('class_id')
+            group_class = GroupFitnessClass.objects.get(group_fitness_class_id=class_id)
+            member = Member.objects.get(member_id=member_id)
+            registration = MemberGroupFitnessRegistration.objects.filter(
+                group_fitness_class=group_class,
+                member=member
+            )
+            if registration.exists():
+                registration.delete()
+                messages.success(request, "Unenrolled from class successfully!")
+            else:
+                messages.error(request, "No enrollment to cancel.")
+
+    group_fitness_classes = GroupFitnessClass.objects.all()
+    classes_with_enrollment_status = []
+
+    for group_class in group_fitness_classes:
+        enrolled = MemberGroupFitnessRegistration.objects.filter(
+            group_fitness_class=group_class,
+            member_id=member_id
+        ).exists()
+
+        class_data = {
+            'class': group_class,
+            'enrolled': enrolled
+        }
+
+        classes_with_enrollment_status.append(class_data)
+    context['classes'] = classes_with_enrollment_status
+    for key, value in request.POST.items():
+        print(f"{key}: {value}")
     scheduled_sessions = PersonalSession.objects.filter(member_id=member_id).order_by('date', 'start_time')
     print(f"Found {len(scheduled_sessions)} scheduled sessions for member ID {member_id}")
 

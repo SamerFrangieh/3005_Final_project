@@ -484,25 +484,26 @@
         </form>
         
     </section>
-    
-    <section class="schedule-management">
-        <h2>Schedule Management</h2>
-        <form method="post">
-            <label for="session-type">Session Type:</label><br>
-            <select id="session-type" name="session_type">
-                <option value="personal_training">Personal Training Session</option>
-                <option value="group_fitness">Group Fitness Class</option>
-            </select><br>
-
-            <label for="date">Date:</label><br>
-            <input type="date" id="date" name="date" required><br>
-
-            <label for="time">Time:</label><br>
-            <input type="time" id="time" name="time" required><br>
-
-            <button type="submit">Schedule Session</button>
-        </form>
+    <section class="group-classes">
+        <h2>Group Fitness Classes</h2>
+        <ul>
+            {% for class_data in classes %}
+            <li>
+                {{ class_data.class.trainer.name }} - {{ class_data.class.date }} {{ class_data.class.start_time }} - {{ class_data.class.end_time }}
+                <form method="post" action="{% url 'dashboard' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="class_id" value="{{ class_data.class.group_fitness_class_id }}">
+                    {% if class_data.enrolled %}
+                        <button type="submit" name="action" value="unenroll">Unenroll</button>
+                    {% else %}
+                        <button type="submit" name="action" value="enroll">Enroll</button>
+                    {% endif %}
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
     </section>
+    
 
 
 

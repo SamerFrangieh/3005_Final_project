@@ -214,6 +214,20 @@ def dashboard(request):
     else:
         bmi_category = 'Extremely Obese 🟥'
 
+    # Calculate BMR
+    bmr = 100
+    rec_bmr = 100
+    bmr = round((88.362 + (13.397 * float(member.weight)) + (4.799 * float(member.height)) - (5.677 * float(member.age))),0)
+    if member.act_levels == '1-3 x times a week':
+        bmr = bmr + 800
+    if member.act_levels == '3-5 x times a week':
+        bmr = bmr + 1200
+    if member.act_levels == '5-6 x times a week':
+        bmr = bmr + 1600
+    if member.act_levels == '6-7 x times a week':
+        bmr = bmr + 1950
+
+
 
     # Calculate BP rating
     bp_health = ''
@@ -230,7 +244,23 @@ def dashboard(request):
         bp_health = 'Low'
     else:
         bp_health = 'Consult a doctor'
-    context = {'member': member, 'bmi': bmi, 'bmi_category': bmi_category, 'bp_health': bp_health, 'bp': bp}
+
+
+
+    if request.method == 'POST':
+        member.diastolic_bp = request.POST.get('diastolic')
+        member.systolic_bp = request.POST.get('systolic')
+        member.height = request.POST.get('Height')
+        member.weight = request.POST.get('Weight')
+        member.fitness_goal = request.POST.get('fitness_goals')
+        member.act_levels = request.POST.get('act_levels')
+        member.age = request.POST.get('Age')
+        member.save()
+        messages.success(request, "Profile updated successfully!")
+        context = {'member': member, 'bmi': bmi, 'bmi_category': bmi_category, 'bp_health': bp_health, 'bp': bp, 'bmr': bmr,'rec_bmr': rec_bmr}
+        return render(request, 'myapp/dashboard/index.html', context)
+
+    context = {'member': member, 'bmi': bmi, 'bmi_category': bmi_category, 'bp_health': bp_health, 'bp': bp, 'bmr': bmr,'rec_bmr': rec_bmr}
     return render(request, 'myapp/dashboard/index.html', context)
 
 

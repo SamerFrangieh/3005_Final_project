@@ -355,7 +355,8 @@ def dashboard(request):
 
         class_data = {
             'class': group_class,
-            'enrolled': enrolled
+            'enrolled': enrolled,
+            'room_name': group_class.room.name, 
         }
 
         classes_with_enrollment_status.append(class_data)

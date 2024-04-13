@@ -420,6 +420,32 @@ def dashboard(request):
     #namem position
     name_pos = member.name
 
+    #achievements
+    bmi_good = ''
+    bp_normal = ''
+    if bp_health =='Normal':
+        bp_normal = '🥇Achieved a healthy Blood pressure'
+
+    if bmi_category == 'Healthy ✅':
+        bmi_good = '🥇Healthy BMI'
+
+    if bmr!=100:
+        bmr_achieve = '🥇You have found your BMR'
+
+    lose=''
+    gain = ''
+    flex=''
+    run=''
+
+    if member.fitness_goal == 'lose_weight':
+        lose = '🥇You are losing weight'
+    elif member.fitness_goal == 'gain_muscle':
+        gain = '🥇You are gaining muscle'
+    elif member.fitness_goal == 'improve_endurance':
+        run = '🥇 Your endurance is improving'
+    elif member.fitness_goal=='increase_flexibility':
+        flex='🥇 Getting more flexible'
+    
     context['member'] = member
     context['bmi'] = bmi
     context['bmi_category'] = bmi_category
@@ -435,6 +461,18 @@ def dashboard(request):
     context['sat'] = sat
     context['sun'] = sun
     context['name_pos'] = name_pos
+    context['bmi_good'] = bmi_good
+    context['bp_normal'] = bp_normal
+    context['bmr_achieve'] = bmr_achieve
+    context['lose'] = lose
+    context['gain'] = gain
+    context['run'] = run
+    context['flex'] = flex
+    
+    
+
+    
+
 
     return render(request, 'myapp/dashboard/index.html', context)
 

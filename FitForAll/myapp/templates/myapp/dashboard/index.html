@@ -313,6 +313,68 @@
         </div>
     </section>
 
+    <section class="training-signup">
+        <h2>Schedule Personal Training Session</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="session_date">Select Date:</label>
+            <input type="date" id="session_date" name="session_date" value="{{ selected_date }}" required>
+            <button type="submit">Check Availability</button>
+        </form>
+        {% if available_trainers %}
+    <h4>Available Trainers on {{ selected_date }}</h4>
+    <form method="POST" action="{% url 'dashboard' %}">
+        {% csrf_token %}
+        <input type="hidden" name="session_date" value="{{ selected_date }}">
+        <select name="trainer_session">
+            {% for trainer, time in available_trainers %}
+                <option value="{{ trainer.trainer_id }}|{{ time }}">{{ trainer.name }} at {{ time }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Book Session</button>
+    </form>
+{% endif %}
+
+    </section>
+    <section class="scheduled-sessions">
+        <h2>Your Scheduled Training Sessions</h2>
+        <form method="POST" action="{% url 'dashboard' %}">
+            {% if scheduled_sessions %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Trainer</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for session in scheduled_sessions %}
+                        <tr>
+                            <td>{{ session.date }}</td>
+                            <td>{{ session.trainer_name }}</td>
+                            <td>{{ session.start_time }}</td>
+                            <td>{{ session.end_time }}</td>
+                            <td>
+                                <form method="POST" action="{% url 'dashboard' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="session_id" value="{{ session.session_id }}">
+                                    <button type="submit">Cancel</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No sessions scheduled.</p>
+        {% endif %}
+        </form>
+        
+    </section>
+    
     <section class="schedule-management">
         <h2>Schedule Management</h2>
         <form method="post">

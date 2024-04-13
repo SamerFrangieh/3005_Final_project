@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from django.db import connection
+from datetime import datetime, timedelta
  # Prints the last executed query
 # #from .models import Book
 # def member_login(request):
@@ -179,18 +180,128 @@ def dashboard(request):
 
 
     if request.method == 'POST':
-        member.diastolic_bp = request.POST.get('diastolic')
-        member.systolic_bp = request.POST.get('systolic')
-        if (member.diastolic_bp == '' or member.systolic_bp == ''):
-            member.diastolic_bp =0
-            member.systolic_bp = 0
-        member.height = request.POST.get('Height')
-        member.weight = request.POST.get('Weight')
-        member.fitness_goal = request.POST.get('fitness_goals')
-        member.act_levels = request.POST.get('act_levels')
-        member.age = request.POST.get('Age')
-        member.save()
-        messages.success(request, "Profile updated successfully!")
+        if request.POST.get('diastolic')  is not None:
+            member.diastolic_bp = request.POST.get('diastolic')
+            member.systolic_bp = request.POST.get('systolic')
+            if (member.diastolic_bp == '' or member.systolic_bp == ''):
+                member.diastolic_bp =0
+                member.systolic_bp = 0
+            member.height = request.POST.get('Height')
+            member.weight = request.POST.get('Weight')
+            member.fitness_goal = request.POST.get('fitness_goals')
+            member.act_levels = request.POST.get('act_levels')
+            member.age = request.POST.get('Age')
+            member.save()
+            messages.success(request, "Profile updated successfully!")
+        if 'session_date' in request.POST:
+            
+    
+            session_date = request.POST['session_date']
+            print(f"Received session date from form: {session_date}")
+
+            date_obj = datetime.strptime(session_date, '%Y-%m-%d').date()
+            day_of_week = date_obj.weekday()
+            print(f"Converted date to datetime object: {date_obj}, Day of week: {day_of_week}")
+
+            available_trainers = TrainerAvailability.objects.filter(day_of_week=day_of_week)
+            trainer_times = []
+
+            print(f"Found {available_trainers.count()} trainers available on this day of the week.")
+
+            for availability in available_trainers:
+                if not PersonalSession.objects.filter(trainer=availability.trainer, date=date_obj).exists():
+                    full_day = datetime.combine(date_obj, datetime.min.time())  # Create full datetime objects
+                    start_datetime = datetime.combine(date_obj, availability.check_in)
+                    end_datetime = datetime.combine(date_obj, availability.check_out)
+
+                    print(f"Trainer {availability.trainer.name} is available from {start_datetime.time()} to {end_datetime.time()}")
+
+                    while start_datetime + timedelta(hours=1) <= end_datetime:
+                        trainer_times.append((availability.trainer, start_datetime.time().strftime('%H:%M')))
+                        print(f"Added time slot for {availability.trainer.name} at {start_datetime.time().strftime('%H:%M')}")
+                        start_datetime += timedelta(hours=1)
+
+            context['available_trainers'] = trainer_times
+            context['selected_date'] = session_date
+
+            if not trainer_times:
+                print("No available trainers found for the selected day.")
+
+        
+        if 'trainer_session' in request.POST:
+            print("Processing trainer and time selection form.")
+            session_info = request.POST.get('trainer_session')
+            if not session_info:
+                print("No trainer or time selected; session_info is empty.")
+                return HttpResponseBadRequest("Invalid trainer or time selected.")
+            try:
+                print(session_info)
+                trainer_id, time_str = session_info.split('|')
+                print(f"Received trainer ID: {trainer_id} and time: {time_str}")
+            except ValueError as e:
+                print(f"Error splitting session_info: {session_info}; Error: {str(e)}")
+                return HttpResponseBadRequest("Invalid trainer or time format.")
+
+            try:
+                trainer = Trainer.objects.get(trainer_id=int(trainer_id))
+            except Trainer.DoesNotExist:
+                print(f"Trainer with ID {trainer_id} does not exist.")
+                return HttpResponseBadRequest("Trainer not found.")
+            except ValueError as e:
+                print(f"Invalid trainer ID format: {trainer_id}; Error: {str(e)}")
+                return HttpResponseBadRequest("Invalid trainer ID format.")
+
+            try:
+                start_time = datetime.strptime(time_str, '%H:%M').time()
+                end_time = (datetime.combine(datetime.today(), start_time) + timedelta(hours=1)).time()
+                print(f"Scheduled start time: {start_time}, end time: {end_time}")
+            except ValueError as e:
+                print(f"Error parsing time: {time_str}; Error: {str(e)}")
+                return HttpResponseBadRequest("Invalid time format.")
+
+            try:
+                PersonalSession.objects.create(
+                    trainer=trainer,
+                    member=Member.objects.get(member_id=request.session['member_id']),
+                    date=session_date,
+                    start_time=start_time,
+                    end_time=end_time
+                )
+                messages.success(request, "Session booked successfully!")
+                print("Session booked successfully.")
+            except Exception as e:
+                print(f"Failed to create personal session; Error: {str(e)}")
+                return HttpResponseBadRequest("Failed to book session.")
+        if request.POST.get('session_id') is not None:
+            
+            session_id = request.POST.get('session_id')
+            try:
+                session = PersonalSession.objects.get(personal_session_id=session_id)
+                session.delete()
+                messages.success(request, "Session cancelled successfully!")
+            except PersonalSession.DoesNotExist:
+                messages.error(request, "Session not found or already cancelled.")
+            
+        print(request.POST)
+        # Fetching and logging scheduled sessions
+        scheduled_sessions = PersonalSession.objects.filter(member_id=member_id).order_by('date', 'start_time')
+        print(f"Found {len(scheduled_sessions)} scheduled sessions for member ID {member_id}")
+
+        
+
+    scheduled_sessions_list = []
+    for session in scheduled_sessions:
+        session_data = {
+            'session_id': session.personal_session_id,
+            'date': session.date,
+            'trainer_name': session.trainer.name,
+            'start_time': session.start_time.strftime("%H:%M"),
+            'end_time': session.end_time.strftime("%H:%M")
+        }
+        scheduled_sessions_list.append(session_data)
+        print(f"Session {session.personal_session_id}: {session_data}")
+    context['scheduled_sessions'] = scheduled_sessions_list
+                
     try:
         member.systolic_bp = int(member.systolic_bp)
     except ValueError:

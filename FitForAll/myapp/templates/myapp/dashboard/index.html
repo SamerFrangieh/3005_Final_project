@@ -123,10 +123,6 @@
             padding: 5px;
             margin-left: 5px;
         }
-        .days-split{
-            display: flex;
-            justify-content: space-around;
-        }
         .bmr{
             display: inline-flex;
             background-color: white;
@@ -139,6 +135,9 @@
             font-size: 40px;
             margin-left: 10px;
             border: solid 2px black;
+        }
+        .Achievements > li{
+            font-size: 25px;
         }
         
     </style>
@@ -168,6 +167,11 @@
             <h2> - Member Dashboard</h2>
         </div>
     </section>
+
+    <div class="nam_pos">
+        <h2 style="color: orange; text-shadow: 2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000,
+        1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;">Welcome to your dashboard <span style="color: #007bff; ">{{name_pos}}</span>!!</h2>
+    </div>
 
     <section class="profile-management" style="padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
         <div class="profile" draggable="true" style="max-width: 600px;">
@@ -279,8 +283,12 @@
                     <div><h4>Friday:</h4>
                         <p>{{fri}}</p>
                     </div>
-                    <div><h4>Saturday:</h4></div>
-                    <div><h4>Sunday:</h4></div>
+                    <div><h4>Saturday:</h4>
+                        <p>{{sat}}</p>
+                    </div>
+                    <div><h4>Sunday:</h4>
+                        <p>{{sun}}</p>
+                    </div>
                 </div>
             </div>
             <div class="Achievements">
@@ -289,7 +297,13 @@
                 <!-- Dynamically loaded content goes here -->
                 <li>🥇 Started Training Journey</li>
                 <li>🥇 Chosen a fitness goal</li>
-                <li></li>
+                <li>{{bmi_good}}</li>
+                <li>{{bp_normal}}</li>
+                <li>{{bmr_achieve}}</li>
+                <li>{{flex}}</li>
+                <li>{{gain}}</li>
+                <li>{{lose}}</li>
+                <li>{{run}}</li>
             </div>
             <div class="stats">
                 <h3>🧬Health Statistics🧬:</h3>

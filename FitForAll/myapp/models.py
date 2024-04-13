@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.postgres.fields import JSONField
+# for Equipment
+from django.utils import timezone
+
 
 
 class Member(models.Model):

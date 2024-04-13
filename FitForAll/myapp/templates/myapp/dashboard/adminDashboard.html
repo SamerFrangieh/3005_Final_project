@@ -121,28 +121,87 @@
     <!-- nav bar -->
     <section class="nav-bar">
         <div class="nav nav-links">
-            <li>
-                <div class="nav-logo nav-item">🏋️</div>
-            </li>
-            <li>
-                <div class="nav-item"> <a href="../login/memberLogin.html">Member Log-In </a></div>
-            </li>
-            <li>
-                <div class="nav-item"> <a href="../login/trainerLogin.html">Trainer Log-In </a></div>
-            </li>
-            <li>
-                <div class="nav-item"> <a href="../login/adminLogin.html">Admin Log-In </a></div>
-            </li>
+            <li><div class="nav-logo nav-item">🏋️</div></li>
+            <li><div class="nav-item"> <a href="../login/memberLogin.html">Member Log-In </a></div></li>
+            <li><div class="nav-item"> <a href="../login/trainerLogin.html">Trainer Log-In </a></div></li>
+            <li><div class="nav-item"> <a href="../login/adminLogin.html">Admin Log-In </a></div></li>
         </div>
     </section>
-    <section>
-        <div class="title-yes">
-            <h1> Fit For All </h1>
-            <h2> - Admin Dashboard</h2>
-        </div>
+    <section class="admin-dashboard" style="padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h1>Fit For All</h1>
+        <!-- Add Equipment Form -->
+
+        <!-- Equipment List -->
+        <h2>Equipment List</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Last Maintenance Date</th>
+                    <th>Next Maintenance Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for equipment in equipments %}
+                <tr>
+                    <td>{{ equipment.name }}</td>
+                    <td>{{ equipment.last_maintenance_date }}</td>
+                    <td>{{ equipment.next_maintenance_date }}</td>
+                    <td>
+                        <!-- Delete Button -->
+                        <form method="post" action="{% url 'adminDashboard' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="delete" value="{{ equipment.id }}">
+                            <input type="submit" value="Delete">
+                        </form>
+                        <!-- Schedule Maintenance Form -->
+                        <form method="post" action="{% url 'adminDashboard' %}">
+                            {% csrf_token %}
+                            <input type="date" name="next_maintenance_date" value="{{ equipment.next_maintenance_date }}">
+                            <input type="hidden" name="schedule" value="{{ equipment.id }}">
+                            <input type="submit" value="Schedule">
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No equipment available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </section>
 
 
+
+    {% comment %} equipment_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    last_maintenance_date = models.DateField()
+    next_maintenance_date = models.DateField() {% endcomment %}
+
+
+
+    <section class="profile-management" style="padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <div class="profile" draggable="true" style="max-width: 600px;">
+            <h2>Add New Equipment</h2>
+            <form method="post" action="{% url 'adminDashboard' %} " style="padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                {% csrf_token %}
+                <div style="margin-bottom: 20px;">
+                    <label for="Height" style="display: block; margin-bottom: 5px;">Equipment Name </label>
+                    <input type="text" id="name" name="name" required value="{{ Eqiupment|default_if_none:'' }}" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"><br>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label for="Weight" style="display: block; margin-bottom: 5px;">Last Maintenance Date</label>
+                    <input type="date" id="last_maintenance_date" name="last_maintenance_date" required value="{{ member.weight|default_if_none:'' }}" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"><br>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label for="Weight" style="display: block; margin-bottom: 5px;">Next Maintenance Date</label><br>
+                    <input type="date" id="next_maintenance_date" name="next_maintenance_date" required value="{{ member.weight|default_if_none:'' }}" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"><br>
+                </div>
+                    <button type="submit" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Add</button>
+            </form>
+        </div>
+    </section>
 </body>
-
 </html>

@@ -14,11 +14,7 @@ VALUES
 (101, 'Aerobics Room'),
 (102, 'Spin Studio');
 
--- Inserting into Trainers
-INSERT INTO myapp_trainer (trainer_id, name, password)
-VALUES 
-(1, 'Jane Smith', 'securepassword'),
-(2, 'Bob Williams', 'anothersecurepassword');
+
 
 -- Inserting into Members
 INSERT INTO myapp_member (member_id, name, password, health_metrics, height, weight, goal_weight, weeks_to_goal, diastolic_bp, systolic_bp, fitness_goal, act_levels)
@@ -51,6 +47,11 @@ VALUES
 (2, 2, '2024-04-02');
 
 
+-- Inserting into Trainers
+INSERT INTO myapp_trainer (trainer_id, name, password)
+VALUES 
+(1, 'Jane Smith', 'securepassword'),
+(2, 'Bob Williams', 'anothersecurepassword');
 
 INSERT INTO myapp_trainer (trainer_id, name, password)
 VALUES (3, 'dhirran', 'dhirran');

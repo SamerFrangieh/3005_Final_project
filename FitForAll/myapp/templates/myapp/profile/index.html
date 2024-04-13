@@ -1,0 +1,512 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member dashboard</title>
+    <link href="{% static 'myapp/dashboard.css' %}" rel="stylesheet">
+    <style>
+        .nav {
+            display: flex;
+            margin-bottom: 0px;
+            background-color: rgb(82, 109, 130);
+            gap: 10%;
+            margin-left: 0;
+            padding: 10px;
+            border-top: 5px solid rgb(34, 40, 49);
+            border-bottom: 5px solid rgb(34, 40, 49);
+        }
+
+        .nav-links {
+            list-style-type: none;
+        }
+
+        .nav-item>a {
+            color: aliceblue;
+        }
+
+        .nav-item {
+            font-size: 25px;
+        }
+
+        .nav-logo {
+            font-size: 50px;
+        }
+
+        .box {
+            height: 50vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .stuff {
+            margin-top: 0px;
+            background-color: rgb(82, 109, 130);
+            width: 450px;
+            vertical-align: middle;
+            border: 5px solid black;
+        }
+
+        .title-yes {
+            display: flex;
+            gap: 10px;
+        }
+
+        h1 {
+            color: blue;
+            font-size: 100px;
+            margin: 0;
+            margin-top: 10px;
+            background-color: orange;
+            width: 450px;
+            border: 5px solid black;
+        }
+
+        h2 {
+            color: black;
+            font-size: 50px;
+        }
+
+        .stuff>div {
+            margin-left: 10px;
+
+        }
+
+        button {
+            font-size: 20px;
+        }
+        .dashboard-content{
+            
+            gap: 10%;
+        }
+        .dashboard-content > div > h3{
+            font-size: 35px;
+            margin-bottom: 4px;
+        }
+        .Achievements > li{
+            list-style-type: none;
+            
+        }
+        .routines{
+            background-color: #C5EBAA;
+            border: 5px solid black;
+            padding-bottom: 30px;
+        }
+        .Achievements{
+            background-color: #F6F193;
+            border: 5px solid black;
+            padding-bottom: 30px;
+        }
+        .stats{
+            background-color: #F2C18D;
+            border: 5px solid black;
+            margin: 0;
+            padding-bottom: 30px;
+            font-size: 20px;
+        }
+        .bmi{
+            display: inline-flex;
+            margin-top: 0;
+            background-color: white;
+            border: 5px dashed black;
+            border-radius: 20%;
+            padding: 5px;
+            margin-left: 5px;
+        }
+        .bp{
+            display: inline-flex;
+            background-color: white;
+            border: 5px dashed black;
+            border-radius: 20%;
+            padding: 5px;
+            margin-left: 5px;
+        }
+        .bmr{
+            display: inline-flex;
+            background-color: white;
+            border: 5px dashed black;
+            border-radius: 20%;
+            padding: 5px;
+            margin-left: 5px;
+        }
+        .bmr_size{
+            font-size: 40px;
+            margin-left: 10px;
+            border: solid 2px black;
+        }
+        .Achievements > li{
+            font-size: 25px;
+        }
+        /* Training and Schedule Sections Styling */
+        section {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        h2 {
+            color: #333;
+            font-size: 24px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #dee2e6;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #495057;
+        }
+
+        input[type="date"],
+        input[type="time"],
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 200px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color: #e9ecef;
+        }
+
+        td form button {
+            margin: 0;
+            width: auto;
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+        /* Highlighting the active form area */
+        form input:focus,
+        form select:focus {
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+
+        /* Styling for no sessions message */
+        .scheduled-sessions > p {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        
+    </style>
+</head>
+
+<body>
+    <!-- nav bar -->
+    <section class="nav-bar">
+        <div class="nav nav-links">
+            <li>
+                <div class="nav-logo nav-item">🏋️</div>
+            </li>
+            <li>
+                <div class="nav-item"> <a href="../login/memberLogin.html">Member Log-In </a></div>
+            </li>
+            <li>
+                <div class="nav-item"> <a href="../login/trainerLogin.html">Trainer Log-In </a></div>
+            </li>
+            <li>
+                <div class="nav-item"> <a href="../login/adminLogin.html">Admin Log-In </a></div>
+            </li>
+        </div>
+    </section>
+    <section>
+        <div class="title-yes">
+            <h1> Fit For All </h1>
+            <h2> - Member Dashboard</h2>
+        </div>
+    </section>
+
+    <div class="nam_pos">
+        <h2 style="color: orange;font-size: 50px; text-shadow: 2px 0 #000, -2px 0 #000, 0 2px #000, 0 -2px #000,
+        1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;">Welcome to your dashboard <span style="color: #007bff; ">{{name_pos}}</span>!!</h2>
+    </div>
+
+    <section class="profile-management" style="padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <div class="profile" draggable="true" style="max-width: 600px;">
+            <h2>Profile Management</h2>
+            <form method="post" action="{% url 'dashboard' %} " style="padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                {% csrf_token %}
+                <div style="margin-bottom: 20px;">
+                <!-- Blood Pressure: Systolic -->
+                <label for="systolic" style="display: block; margin-bottom: 5px;">Blood Pressure - Systolic (mmHg):</label><br>
+                <select id="systolic" name="systolic" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+                    <option value="" {% if member.systolic_bp is None %}selected{% endif %}>Select...</option>
+                    <option value="90" {% if member.systolic_bp == "90" %}selected{% endif %}>90 mmHg or less</option>
+                    <option value="100" {% if member.systolic_bp == "100" %}selected{% endif %}>100 mmHg</option>
+                    <option value="110" {% if member.systolic_bp == "110" %}selected{% endif %}>110 mmHg</option>
+                    <option value="120" {% if member.systolic_bp == "120" %}selected{% endif %}>120 mmHg</option>
+                    <option value="130" {% if member.systolic_bp == "130" %}selected{% endif %}>130 mmHg</option>
+                    <option value="140" {% if member.systolic_bp == "140" %}selected{% endif %}>140 mmHg</option>
+                    <option value="150" {% if member.systolic_bp == "150" %}selected{% endif %}>150 mmHg</option>
+                    <option value="160" {% if member.systolic_bp == "160" %}selected{% endif %}>160 mmHg</option>
+                    <option value="170" {% if member.systolic_bp == 170 %}selected{% endif %}>170 mmHg</option>
+                    <option value="180" {% if member.systolic_bp >= "180" %}selected{% endif %}>180+ mmHg</option>
+                </select><br>
+            </div>
+
+                <!-- Blood Pressure: Diastolic -->
+                <div style="margin-bottom: 20px;"> 
+                <label for="diastolic" style="display: block; margin-bottom: 5px;">Blood Pressure - Diastolic (mmHg):</label><br>
+                <select id="diastolic" name="diastolic" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+                    <option value="" {% if member.diastolic_bp is None %}selected{% endif %}>Select...</option>
+                    <option value="30" {% if member.diastolic_bp == "30" %}selected{% endif %}>30 mmHg or less</option>
+                    <option value="40" {% if member.diastolic_bp == "40" %}selected{% endif %}>40 mmHg</option>
+                    <option value="50" {% if member.diastolic_bp == "50" %}selected{% endif %}>50 mmHg</option>
+                    <option value="60" {% if member.diastolic_bp == "60" %}selected{% endif %}>60 mmHg</option>
+                    <option value="70" {% if member.diastolic_bp == "70" %}selected{% endif %}>70 mmHg</option>
+                    <option value="80" {% if member.diastolic_bp == "80" %}selected{% endif %}>80 mmHg</option>
+                    <option value="90" {% if member.diastolic_bp == "90" %}selected{% endif %}>90 mmHg</option>
+                    <option value="100" {% if member.diastolic_bp == "100" %}selected{% endif %}>100 mmHg</option>
+                    <option value="110" {% if member.diastolic_bp == "110" %}selected{% endif %}>110 mmHg</option>
+                    <option value="120" {% if member.diastolic_bp >= "120" %}selected{% endif %}>120++ mmHg</option>
+                </select><br>
+        </div>
+            <!-- Height in cm -->
+            <div style="margin-bottom: 20px;">
+            <label for="Height" style="display: block; margin-bottom: 5px;">Height in cm:</label><br>
+            <input type="text" id="Height" name="Height" required value="{{ member.height|default_if_none:'' }}" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"><br>
+        </div>
+            <!-- Weight in kg -->
+        <div style="margin-bottom: 20px;">
+            <label for="Weight" style="display: block; margin-bottom: 5px;">Weight in kg:</label><br>
+            <input type="text" id="Weight" name="Weight" required value="{{ member.weight|default_if_none:'' }}" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"><br>
+        </div>
+
+            <!-- Age -->
+            <div style="margin-bottom: 20px;">
+                <label for="Age" style="display: block; margin-bottom: 5px;">Age:</label><br>
+                <input type="text" id="Age" name="Age" required value="{{ member.age|default_if_none:'' }}" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"><br>
+            </div>
+
+        <div style="margin-bottom: 20px;">
+            <!-- Fitness Goals -->
+            <label for="fitness-goals">Fitness Goals:</label><br>
+            <select id="fitness_goals" name="fitness_goals" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+                <option value="lose_weight" {% if member.fitness_goal == 'lose_weight' %}selected{% endif %} style="display: block; margin-bottom: 5px;">Lose Weight</option>
+                <option value="gain_muscle" {% if member.fitness_goal == 'gain_muscle' %}selected{% endif %}>Gain Muscle</option>
+                <option value="improve_endurance" {% if member.fitness_goal == 'improve_endurance' %}selected{% endif %}>Improve Endurance</option>
+                <option value="increase_flexibility" {% if member.fitness_goal == 'increase_flexibility' %}selected{% endif %}>Increase Flexibility</option>
+            </select><br>
+        
+        </div>
+        <div style="margin-bottom: 20px;">
+            <!-- Activity levels per week -->
+            <label for="act_levels">How many times a week do you train:</label><br>
+            <select id="act_levels" name="act_levels" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+                <option value="1-3 x times a week" {% if member.act_levels == '1-3 x times a week' %}selected{% endif %} style="display: block; margin-bottom: 5px;">1-3 x times a week</option>
+                <option value="3-5 x times a week" {% if member.act_levels == '3-5 x times a week' %}selected{% endif %}>3-5 x times a week</option>
+                <option value="5-6 x times a week" {% if member.act_levels == '5-6 x times a week' %}selected{% endif %}>5-6 x times a week</option>
+                <option value="6-7 x times a week" {% if member.act_levels == '6-7 x times a week' %}selected{% endif %}>6-7 x times a week</option>
+            </select><br>
+        
+        </div>
+            
+                <button type="submit" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Update Profile</button>
+            </form>
+            
+
+
+        </div>
+    </section>
+
+    <section class="personalized-dashboard">
+        <h2>Personalized Dashboard</h2>
+        <div class="dashboard-content">
+            <div class="routines">
+                <h3> 🏋🏻‍♀️Exercise Routines🏋🏻‍♀️:</h3>
+                <!-- Dynamically loaded content goes here -->
+                <div class="days-split">
+                    <div><h4>Monday:</h4>
+                        <p>{{mon}}</p>
+                    </div>
+                    <div><h4>Tuesday:</h4>
+                        <p>{{tue}}</p>
+                    </div>
+                    <div><h4>Wednsday:</h4>
+                        <p>{{wed}}</p>
+                    </div>
+                    <div><h4>Thursday:</h4>
+                        <p>{{thu}}</p>
+                    </div>
+                    <div><h4>Friday:</h4>
+                        <p>{{fri}}</p>
+                    </div>
+                    <div><h4>Saturday:</h4>
+                        <p>{{sat}}</p>
+                    </div>
+                    <div><h4>Sunday:</h4>
+                        <p>{{sun}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="Achievements">
+
+                <h3> 🏆Fitness Achievements🏆:</h3>
+                <!-- Dynamically loaded content goes here -->
+                <li>🥇 Started Training Journey</li>
+                <li>🥇 Chosen a fitness goal</li>
+                <li>{{bmi_good}}</li>
+                <li>{{bp_normal}}</li>
+                <li>{{bmr_achieve}}</li>
+                <li>{{flex}}</li>
+                <li>{{gain}}</li>
+                <li>{{lose}}</li>
+                <li>{{run}}</li>
+            </div>
+            <div class="stats">
+                <h3>🧬Health Statistics🧬:</h3>
+                <div class="bmi">
+                    <h4>Your BMI is: <br> <br> {{ bmi }} - {{ bmi_category }}</h4>
+                
+                </div>
+                <hr>
+                <div class="bp">
+                    <h4> Blood Pressure:<br> <br> Your blood pressure of {{bp}} is {{bp_health}}</h4>
+                </div>
+                <hr>
+                <div class="bmr">
+                    <h4>Basal metabolic Rate: <br> <br>Based on your stats, you burn {{bmr}} calories a day <br><br>
+                        based on your fitness goals, you should be aiming to consume <br> <br> 
+                        <span class="bmr_size" style="color:#58A399;">{{rec_bmr}} calories a day.</span></h4>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section class="training-signup">
+        <h2>Schedule Personal Training Session</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="session_date">Select Date:</label>
+            <input type="date" id="session_date" name="session_date" value="{{ selected_date }}" required>
+            <button type="submit">Check Availability</button>
+        </form>
+        {% if available_trainers %}
+    <h4>Available Trainers on {{ selected_date }}</h4>
+    <form method="POST" action="{% url 'dashboard' %}">
+        {% csrf_token %}
+        <input type="hidden" name="session_date" value="{{ selected_date }}">
+        <select name="trainer_session">
+            {% for trainer, time in available_trainers %}
+                <option value="{{ trainer.trainer_id }}|{{ time }}">{{ trainer.name }} at {{ time }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Book Session</button>
+    </form>
+{% endif %}
+
+    </section>
+    <section class="scheduled-sessions">
+        <h2>Your Scheduled Training Sessions</h2>
+        <form method="POST" action="{% url 'dashboard' %}">
+            {% if scheduled_sessions %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Trainer</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for session in scheduled_sessions %}
+                        <tr>
+                            <td>{{ session.date }}</td>
+                            <td>{{ session.trainer_name }}</td>
+                            <td>{{ session.start_time }}</td>
+                            <td>{{ session.end_time }}</td>
+                            <td>
+                                <form method="POST" action="{% url 'dashboard' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="session_id" value="{{ session.session_id }}">
+                                    <button type="submit">Cancel</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No sessions scheduled.</p>
+        {% endif %}
+        </form>
+        
+    </section>
+    <section class="group-classes">
+        <h2>Group Fitness Classes</h2>
+        <ul>
+            {% for class_data in classes %}
+            <li>
+                {{ class_data.class.trainer.name }} - {{ class_data.class.room.name }} - {{ class_data.class.date }} {{ class_data.class.start_time }} - {{ class_data.class.end_time }}
+                <form method="post" action="{% url 'dashboard' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="class_id" value="{{ class_data.class.group_fitness_class_id }}">
+                    {% if class_data.enrolled %}
+                        <button type="submit" name="action" value="unenroll">Unenroll</button>
+                    {% else %}
+                        <button type="submit" name="action" value="enroll">Enroll</button>
+                    {% endif %}
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    
+
+
+
+</body>
+
+</html>

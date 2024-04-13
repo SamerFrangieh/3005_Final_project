@@ -82,15 +82,11 @@ def admin_login(request):
         # Assuming at least this query will be made
         try:
             admin = Admin.objects.get(name=name, password=password)
-            # Print the last query, safely inside a conditional block ensuring at least one query was made
-            print(connection.queries[-1])  # Safer usage
         except Admin.DoesNotExist:
             # Print the last query, safely inside a conditional block ensuring at least one query was made
             print(connection.queries[-1])  # Safer usage
             return render(request, 'myapp/login/adminLogin.html', {'error': 'Invalid username or password'})
         
-        # Print the last query, safely inside a conditional block ensuring at least one query was made
-        print(connection.queries[-1])  # Safer usage
         
         request.session['admin_id'] = admin.admin_id
         return redirect('adminDashboard')
@@ -98,36 +94,33 @@ def admin_login(request):
         return render(request, 'myapp/login/adminLogin.html')
     
 def adminDashboard(request):
+    
     if request.method == 'POST':
-        # Attempt to get form data
-        name = request.POST.get('name').strip()
-        last_maintenance_date = request.POST.get('last_maintenance_date').strip()
-        next_maintenance_date = request.POST.get('next_maintenance_date').strip()
-
-
-        # Basic validation
-        if not (name and last_maintenance_date and next_maintenance_date):
-            messages.error(request, "Please fill out all required fields.")
-            equipments = EquipmentMaintenance.objects.all()
-            return render(request, 'myapp/dashborad/adminDashboard.html', {'equipments': equipments})
-
-
-        try:
-            # Create new equipment entry
-            equipment = EquipmentMaintenance.objects.create(
-                equipment_id =  EquipmentMaintenance.objects.aggregate(Max('member_id'))['member_id__max']+1,
-                name = name,
-                last_maintenance_date = last_maintenance_date,
-                next_maintenance_date = next_maintenance_date
-            )
-            messages.success(request, "Equipment added successfully.")
-        except Exception as e:
-            messages.error(request, "An error occurred while adding the equipment. Please try again.")
-            print(e)  # Or use proper logging
-
-
+        for key, value in request.POST.items():
+            print(f"{key}: {value}")
+        if 'delete' in request.POST:
+            equipment_id = request.POST.get('delete')
+            EquipmentMaintenance.objects.filter(equipment_id=equipment_id).delete() # Redirect to prevent form resubmission
+        elif 'update_status' in request.POST:
+            equipment_id = request.POST.get('update_status')
+            new_status = request.POST.get('status')
+            equipment = EquipmentMaintenance.objects.get(equipment_id=equipment_id)
+            equipment.status = new_status
+            equipment.save() # Redirect to refresh and show updated data
+        elif 'add' in request.POST:
+            name = request.POST.get('name')
+            last_maintenance_date = request.POST.get('last_maintenance_date')
+            next_maintenance_date = request.POST.get('next_maintenance_date')
+            EquipmentMaintenance.objects.create(
+                name=name,
+                last_maintenance_date=last_maintenance_date,
+                next_maintenance_date=next_maintenance_date
+            ) # Redirect to show updated list
+    
     equipments = EquipmentMaintenance.objects.all()
-    return render(request, 'myapp/dashborad/adminDashboard.html', equipments)
+    
+    context = {'equipments': equipments}
+    return render(request, 'myapp/dashboard/adminDashboard.html', context)
 
 
 
@@ -202,9 +195,6 @@ def trainerDashboard(request):
         'availabilities': structured_availabilities
     }
     return render(request, 'myapp/dashboard/trainerDashboard.html', context)
-
-def adminDashboard(request):
-    return render(request, 'myapp/dashboard/adminDashboard.html')
 
 def dashboard(request):
     if not request.session.get('member_id'):

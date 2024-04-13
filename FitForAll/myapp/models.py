@@ -104,15 +104,23 @@ class MemberGroupFitnessRegistration(models.Model):
     registration_date = models.DateField(auto_now_add=True)
 
 class EquipmentMaintenance(models.Model):
+    # Status choices
+    IN_MAINTENANCE = 'IN_MAINTENANCE'
+    BROKEN = 'BROKEN'
+    FUNCTIONING = 'FUNCTIONING'
+    STATUS_CHOICES = [
+        (IN_MAINTENANCE, 'In Maintenance'),
+        (BROKEN, 'Broken'),
+        (FUNCTIONING, 'Functioning'),
+    ]
+
     equipment_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     last_maintenance_date = models.DateField()
     next_maintenance_date = models.DateField()
-
-class Billing(models.Model):
-    bill_id = models.AutoField(primary_key=True)
-    member = models.ForeignKey(Member, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    paid = models.BooleanField(default=False)
-    payment_date = models.DateField(blank=True, null=True)
+    status = models.CharField(
+        max_length=15,
+        choices=STATUS_CHOICES,
+        default=FUNCTIONING,
+    )
 

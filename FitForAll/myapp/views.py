@@ -426,6 +426,13 @@ def dashboard(request):
     context['bp'] = bp
     context['bmr'] = bmr
     context['rec_bmr'] = rec_bmr
+    context['mon'] = mon
+    context['tue'] = tue
+    context['wed'] = wed
+    context['thu'] = thu
+    context['fri'] = fri
+    context['sat'] = sat
+    context['sun'] = sun
 
     return render(request, 'myapp/dashboard/index.html', context)
 

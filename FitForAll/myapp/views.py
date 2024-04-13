@@ -417,7 +417,8 @@ def dashboard(request):
             sat = "Day 6: Dynamic Stretching//Injury prevention stretches - 30 minutes"
             sun = "Day 7: Active Rest//Gentle yoga and deep breathing - 30 minutes"
 
-
+    #namem position
+    name_pos = member.name
 
     context['member'] = member
     context['bmi'] = bmi
@@ -433,6 +434,7 @@ def dashboard(request):
     context['fri'] = fri
     context['sat'] = sat
     context['sun'] = sun
+    context['name_pos'] = name_pos
 
     return render(request, 'myapp/dashboard/index.html', context)
 

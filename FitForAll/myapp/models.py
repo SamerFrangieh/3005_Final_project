@@ -129,3 +129,27 @@ class EquipmentMaintenance(models.Model):
         default=FUNCTIONING,
     )
 
+
+class Billing(models.Model):
+    member = models.ForeignKey('Member', on_delete=models.CASCADE, related_name='billings')
+    amount_due = models.DecimalField(max_digits=10, decimal_places=2)
+    due_date = models.DateField()
+    status = models.CharField(max_length=20, choices=[
+        ('pending', 'Pending'),
+        ('paid', 'Paid'),
+        ('overdue', 'Overdue')
+    ])
+
+class Payment(models.Model):
+    billing = models.ForeignKey('Billing', on_delete=models.CASCADE, related_name='payments')
+    payment_date = models.DateField()
+    payment_method = models.CharField(max_length=50)
+    payment_status = models.CharField(max_length=20, choices=[
+        ('successful', 'Successful'),
+        ('failed', 'Failed')
+    ])
+
+
+class Service(models.Model):
+    service_name = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=10, decimal_places=2)

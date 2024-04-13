@@ -152,6 +152,21 @@ def adminDashboard(request):
                 start_time=start_time,
                 end_time=end_time
             )
+         # Handle payment management POST requests
+        if 'payment_method' in request.POST:
+            billing_id = request.POST.get('billing_id')
+            payment_method = request.POST.get('payment_method')
+            payment_date = datetime.now()  # Use current date as payment date
+            billing = Billing.objects.get(id=billing_id)
+            Payment.objects.create(
+                billing=billing,
+                payment_date=payment_date,
+                payment_method=payment_method,
+                payment_status='successful'  # Assuming all transactions are successful for simplicity
+            )
+            billing.status = 'paid'
+            billing.save()
+
         if 'session_date' in request.POST:
             
     
@@ -190,6 +205,8 @@ def adminDashboard(request):
     rooms = Room.objects.all()
     room_bookings = RoomBooking.objects.select_related('room').order_by('start_time')
     group_fitness_bookings = GroupFitnessClass.objects.select_related('room').order_by('start_time')
+    bills = Billing.objects.select_related('member').all()
+    payments = Payment.objects.select_related('billing').all()
 
     # Combine room_bookings and group_fitness_bookings with type identifiers
     combined_bookings = []
@@ -220,6 +237,8 @@ def adminDashboard(request):
     context['equipments'] = equipments
     context['rooms'] = rooms
     context['bookings'] = combined_bookings
+    context['bills'] = bills
+    context['payments'] = payments
 
 
     return render(request, 'myapp/dashboard/adminDashboard.html', context)

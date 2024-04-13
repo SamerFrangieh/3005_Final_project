@@ -239,7 +239,7 @@ def dashboard(request):
             print(f"Received session date from form: {session_date}")
 
             date_obj = datetime.strptime(session_date, '%Y-%m-%d').date()
-            day_of_week = date_obj.weekday()
+            day_of_week = date_obj.weekday()+1
             print(f"Converted date to datetime object: {date_obj}, Day of week: {day_of_week}")
 
             available_trainers = TrainerAvailability.objects.filter(day_of_week=day_of_week)
@@ -321,10 +321,10 @@ def dashboard(request):
             except PersonalSession.DoesNotExist:
                 messages.error(request, "Session not found or already cancelled.")
             
-        print(request.POST)
-        # Fetching and logging scheduled sessions
-        scheduled_sessions = PersonalSession.objects.filter(member_id=member_id).order_by('date', 'start_time')
-        print(f"Found {len(scheduled_sessions)} scheduled sessions for member ID {member_id}")
+    print(request.POST)
+    # Fetching and logging scheduled sessions
+    scheduled_sessions = PersonalSession.objects.filter(member_id=member_id).order_by('date', 'start_time')
+    print(f"Found {len(scheduled_sessions)} scheduled sessions for member ID {member_id}")
 
         
 

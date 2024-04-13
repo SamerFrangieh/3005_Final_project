@@ -1,8 +1,9 @@
+import time
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from django.db import connection
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 import os
  # Prints the last executed query
 # #from .models import Book
@@ -94,7 +95,7 @@ def admin_login(request):
         return render(request, 'myapp/login/adminLogin.html')
     
 def adminDashboard(request):
-    
+    context = {}
     if request.method == 'POST':
         for key, value in request.POST.items():
             print(f"{key}: {value}")
@@ -116,10 +117,111 @@ def adminDashboard(request):
                 last_maintenance_date=last_maintenance_date,
                 next_maintenance_date=next_maintenance_date
             ) # Redirect to show updated list
+        
+        elif 'add_room_booking' in request.POST:
+            room_id = request.POST.get('room_id')
+            booking_date = request.POST.get('booking_date')
+            start_time_str = request.POST.get('start_time')
+            end_time_str = request.POST.get('end_time')
+
+            room = Room.objects.get(room_id=room_id)
+            # Correct parsing of date and time
+            start_datetime = datetime.strptime(f"{booking_date} {start_time_str}", "%Y-%m-%d %H:%M")
+            end_datetime = datetime.strptime(f"{booking_date} {end_time_str}", "%Y-%m-%d %H:%M")
+
+            RoomBooking.objects.create(
+                room=room,
+                start_time=start_datetime,
+                end_time=end_datetime
+            )
+
+     # Existing POST handling code...
+        elif 'add_group_fitness_class' in request.POST:
+            
+            session_info = request.POST.get('trainer_session')
+            trainer_id, time_str = session_info.split('|')
+            room_id = request.POST.get('room_id')
+            class_date = request.POST.get('date')
+            start_time = datetime.strptime(time_str, '%H:%M').time()
+            end_time = (datetime.combine(datetime.today(), start_time) + timedelta(hours=1)).time()
+            # Create the GroupFitnessClass object
+            GroupFitnessClass.objects.create(
+                trainer_id=trainer_id,
+                room_id=room_id,
+                date=request.POST.get('session_date'),
+                start_time=start_time,
+                end_time=end_time
+            )
+        if 'session_date' in request.POST:
+            
     
+            session_date = request.POST['session_date']
+            print(f"Received session date from form: {session_date}")
+
+            date_obj = datetime.strptime(session_date, '%Y-%m-%d').date()
+            day_of_week = date_obj.weekday()+1
+            print(f"Converted date to datetime object: {date_obj}, Day of week: {day_of_week}")
+
+            available_trainers = TrainerAvailability.objects.filter(day_of_week=day_of_week)
+            trainer_times = []
+
+            print(f"Found {available_trainers.count()} trainers available on this day of the week.")
+
+            for availability in available_trainers:
+                if not PersonalSession.objects.filter(trainer=availability.trainer, date=date_obj).exists():
+                    full_day = datetime.combine(date_obj, datetime.min.time())  # Create full datetime objects
+                    start_datetime = datetime.combine(date_obj, availability.check_in)
+                    end_datetime = datetime.combine(date_obj, availability.check_out)
+
+                    print(f"Trainer {availability.trainer.name} is available from {start_datetime.time()} to {end_datetime.time()}")
+
+                    while start_datetime + timedelta(hours=1) <= end_datetime:
+                        trainer_times.append((availability.trainer, start_datetime.time().strftime('%H:%M')))
+                        print(f"Added time slot for {availability.trainer.name} at {start_datetime.time().strftime('%H:%M')}")
+                        start_datetime += timedelta(hours=1)
+
+            context['available_trainers'] = trainer_times
+            context['selected_date'] = session_date
+
+            if not trainer_times:
+                print("No available trainers found for the selected day.")
+
     equipments = EquipmentMaintenance.objects.all()
-    
-    context = {'equipments': equipments}
+    rooms = Room.objects.all()
+    room_bookings = RoomBooking.objects.select_related('room').order_by('start_time')
+    group_fitness_bookings = GroupFitnessClass.objects.select_related('room').order_by('start_time')
+
+    # Combine room_bookings and group_fitness_bookings with type identifiers
+    combined_bookings = []
+    for booking in room_bookings:
+        booking_data = {
+            'type': 'Room Booking',
+            'booking': {
+                'room': booking.room,
+                'date': booking.start_time.date(),  # Assuming start_time and end_time are DateTimeFields
+                'start_time': booking.start_time.time(),
+                'end_time': booking.end_time.time()
+            }
+        }
+        combined_bookings.append(booking_data)
+
+    for booking in group_fitness_bookings:
+        booking_data = {
+            'type': 'Group Fitness Class',
+            'booking': {
+                'room': booking.room,
+                'date': booking.date,
+                'start_time': booking.start_time,
+                'end_time': booking.end_time
+            }
+        }
+        combined_bookings.append(booking_data)
+
+    context['equipments'] = equipments
+    context['rooms'] = rooms
+    context['bookings'] = combined_bookings
+
+
     return render(request, 'myapp/dashboard/adminDashboard.html', context)
 
 

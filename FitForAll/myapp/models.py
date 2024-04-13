@@ -88,6 +88,11 @@ class GroupFitnessClass(models.Model):
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
+class RoomBooking(models.Model):
+    room_booking_id= models.AutoField(primary_key=True)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='bookings')
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
 
 class MemberGroupFitnessRegistration(models.Model):
     # Foreign key to the GroupFitnessClass model

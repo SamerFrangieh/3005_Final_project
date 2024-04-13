@@ -206,5 +206,112 @@
         </div>
     </section>
     
+    <!-- Bookings Section -->
+    <section class="bookings">
+        <h2>Bookings</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Room</th>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.type }}</td>
+                    <td>{{ booking.booking.room.name }}</td>
+                    <td>
+                        {% if booking.booking.date %}
+                            {{ booking.booking.date }}
+                        {% else %}
+                            {{ booking.booking.start_time|date:"Y-m-d" }}
+                        {% endif %}
+                    </td>
+                    <td>{{ booking.booking.start_time|time }}</td>
+                    <td>{{ booking.booking.end_time|time }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No bookings available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</section>
+
+<!-- Add New Room Booking Section -->
+<section class="room-booking" style="padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <div class="profile" draggable="true" style="max-width: 600px;">
+        <h2>Add New Room Booking</h2>
+        <form method="post" action="{% url 'adminDashboard' %}" style="padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+            {% csrf_token %}
+            <div style="margin-bottom: 20px;">
+                <label for="room_id" style="display: block; margin-bottom: 5px;">Room</label>
+                <select id="room_id" name="room_id" required style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+                    {% for room in rooms %}
+                    <option value="{{ room.id }}">{{ room.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label for="booking_date" style="display: block; margin-bottom: 5px;">Date</label>
+                <input type="date" id="booking_date" name="booking_date" required style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"><br>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label for="start_time" style="display: block; margin-bottom: 5px;">Start Time</label>
+                <input type="time" id="start_time" name="start_time" required style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"><br>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label for="end_time" style="display: block; margin-bottom: 5px;">End Time</label>
+                <input type="time" id="end_time" name="end_time" required style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"><br>
+            </div>
+            <button type="submit" name="add_room_booking" value="add_room_booking" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Add Booking</button>
+        </form>
+    </div>
+</section>
+<!-- Add New Group Fitness Class Section -->
+<section class="group-fitness-class" style="padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <div class="profile" draggable="true" style="max-width: 600px;">
+        <h2>Add New Group Fitness Class</h2>
+        <form method="post" action="{% url 'adminDashboard' %}" style="padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+            {% csrf_token %}
+            <form method="POST">
+                {% csrf_token %}
+                <label for="session_date">Select Date:</label>
+                <input type="date" id="session_date" name="session_date" value="{{ selected_date }}" required>
+                <button type="submit">Check Availability</button>
+            </form>
+            {% if available_trainers %}
+        <h4>Available Trainers on {{ selected_date }}</h4>
+        <form method="POST" action="{% url 'adminDashboard' %}">
+            {% csrf_token %}
+            <input type="hidden" name="session_date" value="{{ selected_date }}">
+            <select name="trainer_session">
+                {% for trainer, time in available_trainers %}
+                    <option value="{{ trainer.trainer_id }}|{{ time }}">{{ trainer.name }} at {{ time }}</option>
+                {% endfor %}
+            </select>
+            <div style="margin-bottom: 20px;">
+                <label for="room_id" style="display: block; margin-bottom: 5px;">Room</label>
+                <select id="room_id" name="room_id" required style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+                    {% for room in rooms %}
+                    <option value="{{ room.room_id }}">{{ room.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" name="add_group_fitness_class" value="add_group_fitness_class" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Add Class</button>
+            <button type="submit">Book Session</button>
+        </form>
+        {% endif %}
+
+        </form>
+    </div>
+</section>
+
 </body>
 </html>

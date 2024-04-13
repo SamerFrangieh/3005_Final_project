@@ -98,40 +98,36 @@ def admin_login(request):
         return render(request, 'myapp/login/adminLogin.html')
     
 def admin_dashboard(request):
-    if not request.session.get('admin_id'):
-        return redirect('adminLogin')
 
-    # Add Equipment
-    if 'add' in request.POST:
-        add_form = EquipmentMaintenance(request.POST)
-        if add_form.is_valid():
-            add_form.save()
-            return redirect('adminDashboard')
-    else:
-        add_form = EquipmentMaintenance()
-
-    # List of Equipment
-    equipments = EquipmentMaintenance.objects.all()
-
-    # Context to pass to the template
-    context = {
-        'equipments': equipments,
-        'add_form': add_form,
-    }
-
-    # Delete or Schedule Maintenance
     if request.method == 'POST':
-        if 'delete' in request.POST:
-            equipment_id = request.POST.get('delete')
-            EquipmentMaintenance.objects.filter(id=equipment_id).delete()
-        elif 'schedule' in request.POST:
-            equipment_id = request.POST.get('schedule')
-            equipment = EquipmentMaintenance.objects.get(id=equipment_id)
-            schedule_form = EquipmentMaintenance(request.POST, instance=equipment)
-            if schedule_form.is_valid():
-                schedule_form.save()
-                
-    return render(request, 'myapp/dashboard/adminDashboard.html', context)
+        EquipmentMaintenance.name = request.POST.get('name').strip()
+        EquipmentMaintenance.last_maintenance_date = request.POST.get('last_maintenance_date').strip()
+        EquipmentMaintenance.next_maintenance_date = request.POST.get('next_maintenance_date', '').strip() # Optional, provide default
+    
+
+        # Basic validation (you might want to add more, e.g., checking if user already exists)
+        if not (EquipmentMaintenance.name and EquipmentMaintenance.last_maintenance_date and EquipmentMaintenance.next_maintenance_date):
+            messages.error(request, "Please fill out all required fields.")
+            return render(request, 'myapp/login/adminDashboard.html')
+
+        try:
+            # # Assuming height and weight are stored as DecimalFields in your model
+            # equipment = EquipmentMaintenance.objects.create(
+            #     name=name,
+            #     next_maintenance_date=last_maintenance_date,  # For demonstration; in real applications, use Django's user model & hash passwords
+            #     last_maintenance_date=next_maintenance_date
+            # )
+            context = {'name': EquipmentMaintenance.name, 'next_maintenance': EquipmentMaintenance.last_maintenance_date, 'last_maintenance_date': EquipmentMaintenance.next_maintenance_date}
+
+            # Redirect to login page or dashboard after successful registration
+            return render(request, 'myapp/dashboard/adminDashboard.html', context)  # Assuming you have a URL named 'memberLogin'
+        except Exception as e:
+            messages.error(request, "An error occurred during registration. Please try again.")
+            print(e)  # or use logging
+            return render(request, 'myapp/dashboard/adminDashboard.html')
+    else:
+        return render(request, 'myapp/dashboard/adminDashboard.html', context)
+
 
 def trainerDashboard(request):
     print("Loading trainer dashboard...")  # Debugging line

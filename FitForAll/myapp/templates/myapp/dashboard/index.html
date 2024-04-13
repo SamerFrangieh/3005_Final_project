@@ -82,8 +82,8 @@
             gap: 10%;
         }
         .dashboard-content > div > h3{
-            font-size: 25px;
-            margin-bottom: 0px;
+            font-size: 35px;
+            margin-bottom: 4px;
         }
         .Achievements > li{
             list-style-type: none;
@@ -104,15 +104,38 @@
             border: 5px solid black;
             margin: 0;
             padding-bottom: 30px;
+            font-size: 20px;
         }
         .bmi{
             display: inline-flex;
             margin-top: 0;
+            background-color: white;
+            border: 5px dashed black;
+            border-radius: 20%;
+            padding: 5px;
+            margin-left: 5px;
+        }
+        .bp{
+            display: inline-flex;
+            background-color: white;
+            border: 5px dashed black;
+            border-radius: 20%;
+            padding: 5px;
+            margin-left: 5px;
         }
         .days-split{
             display: flex;
             justify-content: space-around;
         }
+        .bmr{
+            display: inline-flex;
+            background-color: white;
+            border: 5px dashed black;
+            border-radius: 20%;
+            padding: 5px;
+            margin-left: 5px;
+        }
+        
     </style>
 </head>
 
@@ -192,6 +215,12 @@
             <input type="text" id="Weight" name="Weight" required value="{{ member.weight|default_if_none:'' }}" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"><br>
         </div>
 
+            <!-- Age -->
+            <div style="margin-bottom: 20px;">
+                <label for="Age" style="display: block; margin-bottom: 5px;">Age:</label><br>
+                <input type="text" id="Age" name="Age" required value="{{ member.age|default_if_none:'' }}" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"><br>
+            </div>
+
         <div style="margin-bottom: 20px;">
             <!-- Fitness Goals -->
             <label for="fitness-goals">Fitness Goals:</label><br>
@@ -257,8 +286,13 @@
                 <div class="bp">
                     <h4> Blood Pressure:<br> <br> Your blood pressure of {{bp}} is {{bp_health}}</h4>
                 </div>
-                <!-- Dynamically loaded content goes here -->
-                <!--Samer test-->
+                <hr>
+                <div class="bmr">
+                    <h4>Basal metabolic Rate: <br> <br>Based on your stats, you burn {{bmr}} calories a day <br>
+                        based on your fitness goals, you should be aiming to consume <br> <br> 
+                        <span style="color:rgb(205, 37, 37)">{{rec_bmr}} calories a day.</span></h4>
+                    
+                </div>
                 
             </div>
         </div>

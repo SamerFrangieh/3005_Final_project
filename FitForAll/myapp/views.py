@@ -13,6 +13,7 @@ import os
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Member
+from django.db.models import Max
 
 def register(request):
     if request.method == 'POST':
@@ -30,6 +31,7 @@ def register(request):
         try:
             # Assuming height and weight are stored as DecimalFields in your model
             member = Member.objects.create(
+                member_id= Member.objects.aggregate(Max('member_id'))['member_id__max']+1,
                 name=name,
                 password=password,  # For demonstration; in real applications, use Django's user model & hash passwords
                 fitness_goal=fitness_goals,

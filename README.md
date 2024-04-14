@@ -80,5 +80,6 @@ equipment maintenance, class schedules, billing, and payments.
   - Adding or removing equipment and scheduling maintenance.
   - Creating or updating class schedules and trainer assignments.
 
-  https://cdn.discordapp.com/attachments/1221977169090052176/1228874585278255165/erd_diagram_3005_fitforall.png?ex=662da1a4&is=661b2ca4&hm=31d8424a2c7821bc0767e02f66e69add7f12c2e68f95a0c4899027e2e7454c71&
+![Alt text]([image link](https://cdn.discordapp.com/attachments/1221977169090052176/1228874585278255165/erd_diagram_3005_fitforall.png?ex=662da1a4&is=661b2ca4&hm=31d8424a2c7821bc0767e02f66e69add7f12c2e68f95a0c4899027e2e7454c71&
+))
 

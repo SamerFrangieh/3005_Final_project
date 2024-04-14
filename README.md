@@ -44,6 +44,10 @@ equipment maintenance, class schedules, billing, and payments.
 - python manage.py makemigrations
 - python manage.py migrate
 
+## Perform Data Insertion with contents of the DML.sql
+- Copy the code found in DML.sql into the querry tool in pgAdmin
+- Execute the code to fill the tables with data
+
 ## Start the server
 - python manage.py runserver
 
@@ -96,6 +100,9 @@ equipment maintenance, class schedules, billing, and payments.
 
 # ER-Diagram #
 - https://github.com/SamerFrangieh/FitForAll/blob/main/ER-diagram.png
+
+# Video Demonstration #
+- paste the link to the vid here
 
 
 

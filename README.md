@@ -15,10 +15,6 @@ equipment maintenance, class schedules, billing, and payments.
 ## Navigate to the Project Directory
 - C:\ ...\FitForAll> (you should be here)
 
-## Execute the command to create the Virtual Environment (optional)
-- pip install python-dotenv
-- python -m venv env
-
 ## Execute the following commands to install the required packages
 - pip install psycopg2
 - pip install django

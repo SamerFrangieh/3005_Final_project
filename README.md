@@ -33,7 +33,7 @@ equipment maintenance, class schedules, billing, and payments.
 
 
 
-###### Website Instructions ######
+# Website Instructions #
 
 ## Member Registration
 - Allows new users to register as members of the gym.

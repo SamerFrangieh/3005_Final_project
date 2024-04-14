@@ -1,4 +1,4 @@
-# FitForAll - 3005_Final_project - README
+# FitForAll - Health and Fitness Club Management System
 
 This project is designed for COMP 3005 - Winter 2024. It aims to create a comprehensive platform for managing the operations of a health and 
 fitness club, catering to members, trainers, and administrative staff. The system allows members to register, set fitness goals, manage profiles, 
@@ -6,40 +6,34 @@ and schedule training sessions. Trainers can manage their schedules and view mem
 equipment maintenance, class schedules, billing, and payments.
 
 
-###### Installation Instructions ######
+# Installation Instructions #
 
-# Clone the repository
-git clone <https://github.com/SamerFrangieh/FitForAll.git>
-cd FitForAll
+## Clone the repository
+- git clone <https://github.com/SamerFrangieh/FitForAll.git>
+- cd FitForAll
 
-# Navigate to the Project Directory
-C:\ ...\FitForAll> (you should be here)
+## Navigate to the Project Directory
+- C:\ ...\FitForAll> (you should be here)
 
-# Execute the command to create the Virtual Environment (optional)
-pip install python-dotenv
-python -m venv env
+## Execute the following commands to install the required packages
+- pip install psycopg2
+- pip install django
 
-# Execute the following commands to install the required packages
-pip install psycopg2
-pip install django
+## Navigate to the app directory within the project directory
+- cd .\FitForAll\ 
+- C:\ ...\FitForAll\FitForAll> (you should be here)
 
-# Navigate to the app directory within the project directory
-cd .\FitForAll\ 
-C:\ ...\FitForAll\FitForAll> (you should be here)
+## Perform Database migrations
+- python manage.py makemigrations
+- python manage.py migrate
 
-# Perform Database migrations
-python manage.py makemigrations
-python manage.py migrate
-
-
-
-# Start the server
-python manage.py runserver
+## Start the server
+- python manage.py runserver
 
 
 
 
-###### Website Instructions ######
+# Website Instructions #
 
 ## Member Registration
 - Allows new users to register as members of the gym.
@@ -85,3 +79,7 @@ python manage.py runserver
 - Allows management of the entire gym system, including:
   - Adding or removing equipment and scheduling maintenance.
   - Creating or updating class schedules and trainer assignments.
+
+![alt text]([http://url/to/img.png](https://github.com/SamerFrangieh/FitForAll/blob/main/ER-diagram.png))
+
+

@@ -433,6 +433,7 @@
         </form>
         {% if available_trainers %}
     <h4>Available Trainers on {{ selected_date }}</h4>
+    <h4>All Personal Sessions are 1 hour</h6>
     <form method="POST" action="{% url 'dashboard' %}">
         {% csrf_token %}
         <input type="hidden" name="session_date" value="{{ selected_date }}">
@@ -489,7 +490,7 @@
         <ul>
             {% for class_data in classes %}
             <li>
-                {{ class_data.class.trainer.name }} - {{ class_data.class.room.name }} - {{ class_data.class.date }} {{ class_data.class.start_time }} - {{ class_data.class.end_time }}
+                Trainer: {{ class_data.class.trainer.name }} - {{ class_data.class.room.name }} - {{ class_data.class.date }} {{ class_data.class.start_time }} - {{ class_data.class.end_time }}
                 <form method="post" action="{% url 'dashboard' %}">
                     {% csrf_token %}
                     <input type="hidden" name="class_id" value="{{ class_data.class.group_fitness_class_id }}">

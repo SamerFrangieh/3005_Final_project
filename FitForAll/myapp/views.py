@@ -96,6 +96,7 @@ def admin_login(request):
     
 def adminDashboard(request):
     context = {}
+    
     if request.method == 'POST':
         for key, value in request.POST.items():
             print(f"{key}: {value}")
@@ -135,23 +136,6 @@ def adminDashboard(request):
                 end_time=end_datetime
             )
 
-     # Existing POST handling code...
-        elif 'add_group_fitness_class' in request.POST:
-            
-            session_info = request.POST.get('trainer_session')
-            trainer_id, time_str = session_info.split('|')
-            room_id = request.POST.get('room_id')
-            class_date = request.POST.get('date')
-            start_time = datetime.strptime(time_str, '%H:%M').time()
-            end_time = (datetime.combine(datetime.today(), start_time) + timedelta(hours=1)).time()
-            # Create the GroupFitnessClass object
-            GroupFitnessClass.objects.create(
-                trainer_id=trainer_id,
-                room_id=room_id,
-                date=request.POST.get('session_date'),
-                start_time=start_time,
-                end_time=end_time
-            )
          # Handle payment management POST requests
         if 'payment_method' in request.POST:
             billing_id = request.POST.get('billing_id')
@@ -183,24 +167,53 @@ def adminDashboard(request):
             print(f"Found {available_trainers.count()} trainers available on this day of the week.")
 
             for availability in available_trainers:
-                if not PersonalSession.objects.filter(trainer=availability.trainer, date=date_obj).exists():
-                    full_day = datetime.combine(date_obj, datetime.min.time())  # Create full datetime objects
-                    start_datetime = datetime.combine(date_obj, availability.check_in)
-                    end_datetime = datetime.combine(date_obj, availability.check_out)
+                # Start with full range of available times
+                occupied_times = []
 
-                    print(f"Trainer {availability.trainer.name} is available from {start_datetime.time()} to {end_datetime.time()}")
+                # Gather all blocks of time when the trainer is already occupied
+                personal_sessions = PersonalSession.objects.filter(trainer=availability.trainer, date=date_obj)
+                group_classes = GroupFitnessClass.objects.filter(trainer=availability.trainer, date=date_obj)
+                
+                for session in personal_sessions:
+                    occupied_times.append((datetime.combine(date_obj, session.start_time), datetime.combine(date_obj, session.end_time)))
 
-                    while start_datetime + timedelta(hours=1) <= end_datetime:
+                for g_class in group_classes:
+                    occupied_times.append((datetime.combine(date_obj, g_class.start_time), datetime.combine(date_obj, g_class.end_time)))
+
+                # Check available slots by subtracting occupied times
+                start_datetime = datetime.combine(date_obj, availability.check_in)
+                end_datetime = datetime.combine(date_obj, availability.check_out)
+
+                while start_datetime + timedelta(hours=1) <= end_datetime:
+                    if not any(start_datetime < block_end and start_datetime + timedelta(hours=1) > block_start for block_start, block_end in occupied_times):
                         trainer_times.append((availability.trainer, start_datetime.time().strftime('%H:%M')))
                         print(f"Added time slot for {availability.trainer.name} at {start_datetime.time().strftime('%H:%M')}")
-                        start_datetime += timedelta(hours=1)
-
+                    start_datetime += timedelta(hours=1)
             context['available_trainers'] = trainer_times
             context['selected_date'] = session_date
 
             if not trainer_times:
                 print("No available trainers found for the selected day.")
 
+     # Existing POST handling code...
+        if 'add_group_fitness_class' in request.POST:
+            
+            session_info = request.POST.get('trainer_session')
+            trainer_id, time_str = session_info.split('|')
+            room_id = request.POST.get('room_id')
+            class_date = request.POST.get('date')
+            start_time = datetime.strptime(time_str, '%H:%M').time()
+            end_time = (datetime.combine(datetime.today(), start_time) + timedelta(hours=1)).time()
+            # Create the GroupFitnessClass object
+            GroupFitnessClass.objects.create(
+                trainer_id=trainer_id,
+                room_id=room_id,
+                date=request.POST.get('session_date'),
+                start_time=start_time,
+                end_time=end_time
+            )
+            context['available_trainers'] = {}
+            context['selected_date'] = {}
     equipments = EquipmentMaintenance.objects.all()
     rooms = Room.objects.all()
     room_bookings = RoomBooking.objects.select_related('room').order_by('start_time')
@@ -361,18 +374,28 @@ def dashboard(request):
             print(f"Found {available_trainers.count()} trainers available on this day of the week.")
 
             for availability in available_trainers:
-                if not PersonalSession.objects.filter(trainer=availability.trainer, date=date_obj).exists():
-                    full_day = datetime.combine(date_obj, datetime.min.time())  # Create full datetime objects
-                    start_datetime = datetime.combine(date_obj, availability.check_in)
-                    end_datetime = datetime.combine(date_obj, availability.check_out)
+                # Start with full range of available times
+                occupied_times = []
 
-                    print(f"Trainer {availability.trainer.name} is available from {start_datetime.time()} to {end_datetime.time()}")
+                # Gather all blocks of time when the trainer is already occupied
+                personal_sessions = PersonalSession.objects.filter(trainer=availability.trainer, date=date_obj)
+                group_classes = GroupFitnessClass.objects.filter(trainer=availability.trainer, date=date_obj)
+                
+                for session in personal_sessions:
+                    occupied_times.append((datetime.combine(date_obj, session.start_time), datetime.combine(date_obj, session.end_time)))
 
-                    while start_datetime + timedelta(hours=1) <= end_datetime:
+                for g_class in group_classes:
+                    occupied_times.append((datetime.combine(date_obj, g_class.start_time), datetime.combine(date_obj, g_class.end_time)))
+
+                # Check available slots by subtracting occupied times
+                start_datetime = datetime.combine(date_obj, availability.check_in)
+                end_datetime = datetime.combine(date_obj, availability.check_out)
+
+                while start_datetime + timedelta(hours=1) <= end_datetime:
+                    if not any(start_datetime < block_end and start_datetime + timedelta(hours=1) > block_start for block_start, block_end in occupied_times):
                         trainer_times.append((availability.trainer, start_datetime.time().strftime('%H:%M')))
                         print(f"Added time slot for {availability.trainer.name} at {start_datetime.time().strftime('%H:%M')}")
-                        start_datetime += timedelta(hours=1)
-
+                    start_datetime += timedelta(hours=1)
             context['available_trainers'] = trainer_times
             context['selected_date'] = session_date
 
@@ -424,6 +447,8 @@ def dashboard(request):
             except Exception as e:
                 print(f"Failed to create personal session; Error: {str(e)}")
                 return HttpResponseBadRequest("Failed to book session.")
+            context['available_trainers'] = {}
+            context['selected_date'] = {}
         if request.POST.get('session_id') is not None:
             
             session_id = request.POST.get('session_id')

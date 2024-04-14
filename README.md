@@ -77,27 +77,20 @@ equipment maintenance, class schedules, billing, and payments.
       - Displaying Fitness Achievements to track the member's fitness journey
 
 ## Trainer Login / Trainer Dashboard
-- **Secured Access**: Trainers log in with username and password credentials.
+- Provides a login form for trainers to access their dashboard.
 - **Daily Scheduling and Availability**:
   - Trainers can update their daily availability by setting specific check-in and check-out times for each day of the week..
   - Default times are set to '0:00' which indicates no availability unless updated.
-- **Client Management**:
-  - View and manage personal client lists which include client progress reports, scheduled sessions, and historical data.
-  - Ability to add new workout plans, update existing ones, and monitor client adherence and progress.
 - **Member Search Functionality**:
-  - Search for members by name to quickly access their profiles, workout plans, and training history.
-  - Useful for preparing personalized sessions and tracking long-term fitness goals.
-- **Resource Access**:
-  - Access to a library of training materials, exercises, dietary guidelines, and other resources to enhance the training experience for clients.
-- **Feedback and Communication**:
-  - Send and receive feedback directly through the dashboard to improve training strategies and client satisfaction.
-  - Maintain active communication channels with clients and gym management for updates and notifications.
+  - Search for members by name to quickly access their profile information.
+  - View booked classes for members.
 
 ## Admin Login / Admin Dashboard
-- Exclusively for gym administrators or management personnel.
+- Provides a login form for admin to access their dashboard.
 - Allows management of the entire gym system, including:
-  - Adding or removing equipment and scheduling maintenance.
-  - Creating or updating class schedules and trainer assignments.
+  - Adding or removing equipment, scheduling maintenance, and changing functioning/broken/maintenance status of the machines.
+  - Creating and deleting room bookings for official classes.
+  - Adding and updating billing status and payment methods for members
 
 # ER-Diagram #
 - https://raw.githubusercontent.com/SamerFrangieh/FitForAll/main/FitForAll/images/ER-diagram.png

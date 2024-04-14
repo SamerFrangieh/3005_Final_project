@@ -6,35 +6,33 @@ and schedule training sessions. Trainers can manage their schedules and view mem
 equipment maintenance, class schedules, billing, and payments.
 
 
-###### Installation Instructions ######
+# Installation Instructions #
 
-# Clone the repository
-git clone <https://github.com/SamerFrangieh/FitForAll.git>
-cd FitForAll
+## Clone the repository
+- git clone <https://github.com/SamerFrangieh/FitForAll.git>
+- cd FitForAll
 
-# Navigate to the Project Directory
-C:\ ...\FitForAll> (you should be here)
+## Navigate to the Project Directory
+- C:\ ...\FitForAll> (you should be here)
 
-# Execute the command to create the Virtual Environment (optional)
-pip install python-dotenv
-python -m venv env
+## Execute the command to create the Virtual Environment (optional)
+- pip install python-dotenv
+- python -m venv env
 
-# Execute the following commands to install the required packages
-pip install psycopg2
-pip install django
+## Execute the following commands to install the required packages
+- pip install psycopg2
+- pip install django
 
-# Navigate to the app directory within the project directory
-cd .\FitForAll\ 
-C:\ ...\FitForAll\FitForAll> (you should be here)
+## Navigate to the app directory within the project directory
+- cd .\FitForAll\ 
+- C:\ ...\FitForAll\FitForAll> (you should be here)
 
-# Perform Database migrations
-python manage.py makemigrations
-python manage.py migrate
+## Perform Database migrations
+- python manage.py makemigrations
+- python manage.py migrate
 
-
-
-# Start the server
-python manage.py runserver
+## Start the server
+- python manage.py runserver
 
 
 
@@ -85,3 +83,6 @@ python manage.py runserver
 - Allows management of the entire gym system, including:
   - Adding or removing equipment and scheduling maintenance.
   - Creating or updating class schedules and trainer assignments.
+
+  https://cdn.discordapp.com/attachments/1221977169090052176/1228874585278255165/erd_diagram_3005_fitforall.png?ex=662da1a4&is=661b2ca4&hm=31d8424a2c7821bc0767e02f66e69add7f12c2e68f95a0c4899027e2e7454c71&
+

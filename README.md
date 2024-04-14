@@ -1,4 +1,4 @@
-# FitForAll - 3005_Final_project - README
+# FitForAll - Health and Fitness Club Management System
 
 This project is designed for COMP 3005 - Winter 2024. It aims to create a comprehensive platform for managing the operations of a health and 
 fitness club, catering to members, trainers, and administrative staff. The system allows members to register, set fitness goals, manage profiles, 

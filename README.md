@@ -81,8 +81,8 @@ equipment maintenance, class schedules, billing, and payments.
 
 
 # ER-Diagram #
-- http://url/to/img.png](https://github.com/SamerFrangieh/FitForAll/blob/main/ER-diagram.png
-- 
+- [http://url/to/img.png](https://github.com/SamerFrangieh/FitForAll/blob/main/ER-diagram.png](https://raw.githubusercontent.com/SamerFrangieh/FitForAll/main/ER-diagram.png)
+
 
 
 

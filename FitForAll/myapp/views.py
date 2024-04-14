@@ -764,9 +764,6 @@ def dashboard(request):
     elif member.fitness_goal=='increase_flexibility':
         flex='🥇 Getting more flexible'
     
-    member = Member.objects.get(member_id=member_id)
-    member.systolic_bp = "{member.systolic_bp}"
-    member.diastolic_bp = "{member.diastolic_bp}"
     context['member'] = member
     context['bmi'] = bmi
     context['bmi_category'] = bmi_category

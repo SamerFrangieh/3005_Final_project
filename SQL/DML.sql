@@ -208,7 +208,7 @@ VALUES
 
 
 INSERT INTO myapp_admin (admin_id, name, password)
-VALUES (1, 'dhirran', 'dhirran'),
+VALUES (1, 'dhirran', 'dhirran');
 
 INSERT INTO myapp_admin (admin_id, name, password)
 VALUES (2, 'admin', 'admin');

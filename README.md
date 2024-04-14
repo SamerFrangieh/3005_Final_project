@@ -44,6 +44,10 @@ equipment maintenance, class schedules, billing, and payments.
 - python manage.py makemigrations
 - python manage.py migrate
 
+## Perform Data Insertion with contents of the DML.sql
+- Copy the code found in DML.sql into the querry tool in pgAdmin
+- Execute the code to fill the tables with data
+
 ## Start the server
 - python manage.py runserver
 

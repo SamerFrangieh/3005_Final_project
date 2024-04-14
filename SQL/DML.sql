@@ -151,7 +151,9 @@ VALUES
 (1, 3, '2024-04-18', '10:00:00', '11:00:00'),
 (2, 4, '2024-04-19', '13:00:00', '14:00:00'),
 (1, 5, '2024-04-20', '08:00:00', '09:00:00'),
-(2, 1, '2024-04-21', '14:00:00', '15:00:00');
+(2, 1, '2024-04-21', '14:00:00', '15:00:00'),
+(6, 0, '2024-04-14', '8:00:00', '9:00:00')
+
 
 -- Inserting into Group Fitness Classes
 INSERT INTO myapp_groupfitnessclass (trainer_id, room_id, date, start_time, end_time)
@@ -204,7 +206,7 @@ VALUES
 
 
 INSERT INTO myapp_admin (admin_id, name, password)
-VALUES (1, 'dhirran', 'dhirran');
+VALUES (1, 'dhirran', 'dhirran'),
 
 INSERT INTO myapp_admin (admin_id, name, password)
 VALUES (2, 'admin', 'admin');

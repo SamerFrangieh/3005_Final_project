@@ -97,6 +97,9 @@ equipment maintenance, class schedules, billing, and payments.
 # ER-Diagram #
 - https://github.com/SamerFrangieh/FitForAll/blob/main/ER-diagram.png
 
+- # Video Demonstration #
+- paste the link to the vid here
+
 
 
 

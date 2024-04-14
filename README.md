@@ -32,10 +32,6 @@ equipment maintenance, class schedules, billing, and payments.
 - set DB_USER to match the user corresponding to your Database
 - set DB_PASSWORD to match the password corresponding to your Database
 
-## Create a PostgreSQL Database with pgAdmin
-- pip install psycopg2
-- pip install 
-
 ## Edit the .env file to meet your Database login credentials
 - pip install psycopg2
 - pip install django

@@ -8,6 +8,8 @@ equipment maintenance, class schedules, billing, and payments.
 
 # Installation Instructions #
 
+## Navigate to your destination directory for the project repository
+
 ## Clone the repository
 - git clone <https://github.com/SamerFrangieh/FitForAll.git>
 - cd FitForAll
@@ -16,6 +18,25 @@ equipment maintenance, class schedules, billing, and payments.
 - C:\ ...\FitForAll> (you should be here)
 
 ## Execute the following commands to install the required packages
+- pip install psycopg2
+- pip install django
+
+## Create a PostgreSQL Database with pgAdmin
+- set the database name to 'fitforall'
+- ensure DB_HOST = localhost
+- ensure DB_PORT = 5432
+- create a user with a name of your choice
+- create a password of your choice
+
+## Edit the .env file to meet your Database login requirements
+- change DB_USER to match the user corresponding to your Database
+- change DB_PASSWORD to match the password corresponding to your Database
+
+## Create a PostgreSQL Database with pgAdmin
+- pip install psycopg2
+- pip install 
+
+## Edit the .env file to meet your Database login credentials
 - pip install psycopg2
 - pip install django
 

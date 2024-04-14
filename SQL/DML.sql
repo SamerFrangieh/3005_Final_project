@@ -41,6 +41,9 @@ VALUES (7, 'Cristina', 'cristina' );
 INSERT INTO myapp_trainer (trainer_id, name, password)
 VALUES (8, 'Jenny', 'jenny');
 
+INSERT INTO myapp_trainer (trainer_id, name, password)
+VALUES (9, 'trainer', 'trainer');
+
 -- Inserting into Members
 INSERT INTO myapp_member (member_id, name, password, health_metrics, height, weight, goal_weight, weeks_to_goal, diastolic_bp, systolic_bp, fitness_goal, act_levels, age) VALUES 
 (1, 'Bob1', 'password813', '{"bmi": 28.4, "fat_percentage": 22.1}', 198.0693813085105, 88.61122378193645, 80.7966657226928, 36, 84, 112, 'Lose Weight', '5-6 x times a week', 50),
@@ -151,8 +154,7 @@ VALUES
 (1, 3, '2024-04-18', '10:00:00', '11:00:00'),
 (2, 4, '2024-04-19', '13:00:00', '14:00:00'),
 (1, 5, '2024-04-20', '08:00:00', '09:00:00'),
-(2, 1, '2024-04-21', '14:00:00', '15:00:00'),
-(6, 0, '2024-04-14', '08:00:00', '09:00:00');
+(2, 1, '2024-04-21', '14:00:00', '15:00:00');
 
 
 -- Inserting into Group Fitness Classes

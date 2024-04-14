@@ -30,9 +30,6 @@ equipment maintenance, class schedules, billing, and payments.
 ## Start the server
 - python manage.py runserver
 
-
-
-
 # Website Instructions #
 
 ## Member Registration
@@ -81,5 +78,11 @@ equipment maintenance, class schedules, billing, and payments.
   - Creating or updating class schedules and trainer assignments.
 
 ![alt text]([http://url/to/img.png](https://github.com/SamerFrangieh/FitForAll/blob/main/ER-diagram.png))
+
+
+# ER-Diagram #
+- http://url/to/img.png](https://github.com/SamerFrangieh/FitForAll/blob/main/ER-diagram.png
+- 
+
 
 

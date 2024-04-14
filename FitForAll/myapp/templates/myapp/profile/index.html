@@ -247,13 +247,7 @@
                 <div class="nav-logo nav-item">🏋️</div>
             </li>
             <li>
-                <div class="nav-item"> <a href="../login/memberLogin.html">Member Log-In </a></div>
-            </li>
-            <li>
-                <div class="nav-item"> <a href="../login/trainerLogin.html">Trainer Log-In </a></div>
-            </li>
-            <li>
-                <div class="nav-item"> <a href="../login/adminLogin.html">Admin Log-In </a></div>
+                <div class="nav-item"> <a href="{% url 'dashboard' %}">Go Back </a></div>
             </li>
         </div>
     </section>
@@ -420,9 +414,11 @@
         <h2>Group Fitness Classes</h2>
         <ul>
             {% for class_data in classes %}
+            {% if class_data.enrolled %}
             <li>
-                {{ class_data.class.trainer.name }} - {{ class_data.class.room.name }} - {{ class_data.class.date }} {{ class_data.class.start_time }} - {{ class_data.class.end_time }}
+                Trainer: {{ class_data.class.trainer.name }} - {{ class_data.class.room.name }} - {{ class_data.class.date }} {{ class_data.class.start_time }} - {{ class_data.class.end_time }}
             </li>
+            {% endif %}
             {% endfor %}
         </ul>
     </section>

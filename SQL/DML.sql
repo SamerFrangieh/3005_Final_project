@@ -12,13 +12,34 @@ END $$;
 INSERT INTO myapp_room (room_id, name)
 VALUES 
 (101, 'Aerobics Room'),
-(102, 'Spin Studio');
+(102, 'Spin Studio'),
+(103, 'Yoga Studio'),
+(104, 'Weight Room'),
+(105, 'Cardio Room');
 
 -- Inserting into Trainers
 INSERT INTO myapp_trainer (trainer_id, name, password)
 VALUES 
 (1, 'Jane Smith', 'securepassword'),
 (2, 'Bob Williams', 'anothersecurepassword');
+
+INSERT INTO myapp_trainer (trainer_id, name, password)
+VALUES (3, 'dhirran', 'dhirran');
+
+INSERT INTO myapp_trainer (trainer_id, name, password)
+VALUES (4, 'Samer', 'samer');
+
+INSERT INTO myapp_trainer (trainer_id, name, password)
+VALUES (5, 'James', 'james');
+
+INSERT INTO myapp_trainer (trainer_id, name, password)
+VALUES (6, 'Amir', 'amir');
+
+INSERT INTO myapp_trainer (trainer_id, name, password)
+VALUES (7, 'Cristina', 'cristina' );
+
+INSERT INTO myapp_trainer (trainer_id, name, password)
+VALUES (8, 'Jenny', 'jenny');
 
 -- Inserting into Members
 INSERT INTO myapp_member (member_id, name, password, health_metrics, height, weight, goal_weight, weeks_to_goal, diastolic_bp, systolic_bp, fitness_goal, act_levels, age) VALUES 
@@ -98,19 +119,49 @@ INSERT INTO myapp_traineravailability (trainer_id, day_of_week, check_in, check_
 VALUES
 (2, 1, '10:00:00', '16:00:00'),
 (1, 1, '08:00:00', '12:00:00'),
-(2, 3, '10:00:00', '14:00:00');
+(2, 3, '10:00:00', '14:00:00'),
+(3, 1, '09:00:00', '13:00:00'),
+(3, 4, '11:00:00', '15:00:00'),
+(4, 2, '12:00:00', '18:00:00'),
+(4, 5, '10:00:00', '14:00:00'),
+(5, 1, '08:00:00', '12:00:00'),
+(5, 3, '14:00:00', '18:00:00'),
+(6, 2, '06:00:00', '12:00:00'),
+(6, 5, '06:00:00', '10:00:00'),
+(7, 1, '09:00:00', '13:00:00'),
+(7, 3, '12:00:00', '16:00:00'),
+(8, 2, '11:00:00', '17:00:00'),
+(8, 4, '09:00:00', '13:00:00'),
+(1, 2, '13:00:00', '17:00:00'),
+(1, 4, '08:00:00', '12:00:00'),
+(2, 5, '11:00:00', '15:00:00'),
+(3, 6, '09:00:00', '13:00:00'),
+(4, 6, '14:00:00', '18:00:00'),
+(5, 6, '10:00:00', '14:00:00'),
+(6, 7, '08:00:00', '12:00:00'),
+(7, 7, '13:00:00', '17:00:00'),
+(8, 7, '10:00:00', '16:00:00');
+
 
 -- Inserting into Personal Sessions
 INSERT INTO myapp_personalsession (trainer_id, member_id, date, start_time, end_time)
 VALUES 
 (1, 1, '2024-04-15', '09:00:00', '10:00:00'),
-(2, 2, '2024-04-16', '11:00:00', '12:00:00');
+(2, 2, '2024-04-16', '11:00:00', '12:00:00'),
+(1, 3, '2024-04-18', '10:00:00', '11:00:00'),
+(2, 4, '2024-04-19', '13:00:00', '14:00:00'),
+(1, 5, '2024-04-20', '08:00:00', '09:00:00'),
+(2, 1, '2024-04-21', '14:00:00', '15:00:00');
 
 -- Inserting into Group Fitness Classes
 INSERT INTO myapp_groupfitnessclass (trainer_id, room_id, date, start_time, end_time)
 VALUES 
 (1, 101, '2024-04-16', '10:00:00', '11:00:00'),
-(2, 102, '2024-04-17', '09:00:00', '10:00:00');
+(2, 102, '2024-04-17', '09:00:00', '10:00:00'),
+(1, 103, '2024-04-18', '12:00:00', '13:00:00'),
+(2, 104, '2024-04-19', '15:00:00', '16:00:00'),
+(1, 105, '2024-04-20', '07:00:00', '08:00:00'),
+(2, 101, '2024-04-21', '16:00:00', '17:00:00');
 
 -- Inserting into Member Group Fitness Registration
 INSERT INTO myapp_membergroupfitnessregistration (group_fitness_class_id, member_id, registration_date)
@@ -150,23 +201,7 @@ VALUES
     ('2024-04-13 22:00:00', '2024-04-13 23:00:00', 7);
 
 
-INSERT INTO myapp_trainer (trainer_id, name, password)
-VALUES (3, 'dhirran', 'dhirran');
 
-INSERT INTO myapp_trainer (trainer_id, name, password)
-VALUES (4, 'Samer', 'samer');
-
-INSERT INTO myapp_trainer (trainer_id, name, password)
-VALUES (5, 'James', 'james');
-
-INSERT INTO myapp_trainer (trainer_id, name, password)
-VALUES (6, 'Amir', 'amir');
-
-INSERT INTO myapp_trainer (trainer_id, name, password)
-VALUES (7, 'Cristina', 'cristina' );
-
-INSERT INTO myapp_trainer (trainer_id, name, password)
-VALUES (8, 'Jenny', 'jenny');
 
 INSERT INTO myapp_admin (admin_id, name, password)
 VALUES (1, 'dhirran', 'dhirran');

@@ -25,7 +25,7 @@ equipment maintenance, class schedules, billing, and payments.
 - set the database name to 'fitforall'
 - ensure DB_HOST = localhost
 - ensure DB_PORT = 5432
-- create a user with a name of your choice
+- create a username of your choice
 - create a password of your choice
 
 ## Edit the .env file to meet your Database login requirements

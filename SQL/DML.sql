@@ -217,3 +217,18 @@ INSERT INTO myapp_member (member_id, name, password, health_metrics, height, wei
 VALUES 
 (71, 'dhirran', 'dhirran', '{"bmi": 25, "fat_percentage": 20}', 165.0, 80.0, 70.0, 10, 85, 125, 'Lose weight','1-3 x times a week');
 
+
+INSERT INTO myapp_billing (member_id, amount_due, due_date, status)
+VALUES (71, 100.00, '2024-04-13', 'pending'),
+       (20, 150.00, '2024-04-15', 'paid'),
+       (30, 200.00, '2024-04-10', 'overdue');
+
+INSERT INTO myapp_payment (billing_id, payment_date, payment_method, payment_status)
+VALUES (1, '2024-04-14', 'Credit Card', 'successful'),
+       (2, '2024-04-15', 'PayPal', 'successful'),
+       (3, '2024-04-12',  'Bank Transfer', 'failed');
+
+INSERT INTO myapp_service (service_name, price)
+VALUES ('Web Hosting', 50.00),
+       ('Domain Registration', 15.00),
+       ('SSL Certificate', 30.00);

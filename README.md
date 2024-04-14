@@ -77,11 +77,8 @@ equipment maintenance, class schedules, billing, and payments.
   - Adding or removing equipment and scheduling maintenance.
   - Creating or updating class schedules and trainer assignments.
 
-![alt text]([http://url/to/img.png](https://github.com/SamerFrangieh/FitForAll/blob/main/ER-diagram.png))
-
-
 # ER-Diagram #
-- <https://github.com/SamerFrangieh/FitForAll/blob/main/ER-diagram.png](https://raw.githubusercontent.com/SamerFrangieh/FitForAll/main/ER-diagram.png>
+- https://github.com/SamerFrangieh/FitForAll/blob/main/ER-diagram.png
 
 
 

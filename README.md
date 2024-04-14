@@ -77,16 +77,13 @@ equipment maintenance, class schedules, billing, and payments.
       - Displaying Fitness Achievements to track the member's fitness journey
 
 ## Trainer Login / Trainer Dashboard
-- **Secured Access**: Trainers log in with credentials issued by the gym management, ensuring that each trainer accesses only their designated information and tools.
+- **Secured Access**: Trainers log in with username and password credentials.
 - **Daily Scheduling and Availability**:
-  - Trainers can update their daily availability by setting specific check-in and check-out times for each day of the week, providing flexibility and clear communication with clients and gym management.
+  - Trainers can update their daily availability by setting specific check-in and check-out times for each day of the week..
   - Default times are set to '0:00' which indicates no availability unless updated.
 - **Client Management**:
   - View and manage personal client lists which include client progress reports, scheduled sessions, and historical data.
   - Ability to add new workout plans, update existing ones, and monitor client adherence and progress.
-- **Appointment Scheduling**:
-  - Manage and schedule training sessions with an easy-to-use interface that shows daily, weekly, or monthly calendars.
-  - Handle appointment changes, cancellations, and re-scheduling effortlessly.
 - **Member Search Functionality**:
   - Search for members by name to quickly access their profiles, workout plans, and training history.
   - Useful for preparing personalized sessions and tracking long-term fitness goals.

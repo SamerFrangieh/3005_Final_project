@@ -79,5 +79,7 @@ equipment maintenance, class schedules, billing, and payments.
 - Allows management of the entire gym system, including:
   - Adding or removing equipment and scheduling maintenance.
   - Creating or updating class schedules and trainer assignments.
-![alt text](https://github.com/[SamerFrangieh]/[FitForAll]/blob/[main]/ER-diagram.jpg?raw=true)
+
+![alt text]([http://url/to/img.png](https://github.com/SamerFrangieh/FitForAll/blob/main/ER-diagram.png))
+
 

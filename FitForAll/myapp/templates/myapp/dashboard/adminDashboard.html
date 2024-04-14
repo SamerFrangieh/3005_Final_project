@@ -293,7 +293,8 @@
                     <td>  
                         <form method="POST" action="{% url 'adminDashboard' %}">
                             {% csrf_token %}
-                            <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                            <input type="hidden" name="booking_id" value="{{ booking.booking.room_booking_id }}">
+                            <input type="hidden" name="booking_type" value="{{ booking.type }}">
                             <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer;">Delete</button>
                         </form></td>
                 </tr>
@@ -351,6 +352,7 @@
             </form>
             {% if available_trainers %}
         <h4>Available Trainers on {{ selected_date }}</h4>
+        <h4>All Group Fitness Classes are 1 hour</h6>
         <form method="POST" action="{% url 'adminDashboard' %}">
             {% csrf_token %}
             <input type="hidden" name="session_date" value="{{ selected_date }}">

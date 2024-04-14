@@ -129,7 +129,12 @@ def adminDashboard(request):
         if 'booking_id' in request.POST: 
             print(request.POST)
             booking_id = request.POST.get('booking_id')
-            RoomBooking.objects.filter(room_booking_id=booking_id).delete()
+            if request.POST.get('booking_type') == "Room Booking":
+
+                RoomBooking.objects.filter(room_booking_id=booking_id).delete()
+            else:
+
+                GroupFitnessClass.objects.filter(group_fitness_class_id=booking_id).delete()
             messages.success(request, 'Booking successfully deleted.')
          # Handle payment management POST requests
 
@@ -217,6 +222,7 @@ def adminDashboard(request):
         booking_data = {
             'type': 'Room Booking',
             'booking': {
+                'room_booking_id': booking.room_booking_id,
                 'room': booking.room,
                 'date': booking.start_time.date(),  
                 'start_time': booking.start_time.time(),
@@ -229,6 +235,8 @@ def adminDashboard(request):
         booking_data = {
             'type': 'Group Fitness Class',
             'booking': {
+                
+                'room_booking_id': booking.group_fitness_class_id,
                 'room': booking.room,
                 'date': booking.date,
                 'start_time': booking.start_time,

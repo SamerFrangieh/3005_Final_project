@@ -51,6 +51,10 @@ equipment maintenance, class schedules, billing, and payments.
 ## Start the server
 - python manage.py runserver
 
+## Example Logins 
+- **Trainer Login Credentials**: USER = 'trainer', PASSWORD = 'trainer'
+- **Admin Login Credentials**: USER = 'admin', PASSWORD = 'admin'
+
 # Website Instructions #
 
 ## Member Registration
@@ -102,7 +106,7 @@ equipment maintenance, class schedules, billing, and payments.
 - https://github.com/SamerFrangieh/FitForAll/blob/main/ER-diagram.png
 
 # Video Demonstration #
-- paste the link to the vid here
+- https://youtu.be/5FUcJPeGqvM
 
 
 

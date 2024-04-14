@@ -135,7 +135,11 @@ def adminDashboard(request):
                 start_time=start_datetime,
                 end_time=end_datetime
             )
-
+        if 'booking_id' in request.POST: 
+            print(request.POST)
+            booking_id = request.POST.get('booking_id')
+            RoomBooking.objects.filter(room_booking_id=booking_id).delete()
+            messages.success(request, 'Booking successfully deleted.')
          # Handle payment management POST requests
         if 'payment_method' in request.POST:
             billing_id = request.POST.get('billing_id')
@@ -339,7 +343,7 @@ def dashboard(request):
     try:
         member = Member.objects.get(member_id=member_id)
     except Member.DoesNotExist:
-        return redirect('memberLogin')  # Consider adding an error message or similar
+        return redirect('memberLogin')  
 
     context = {}
 

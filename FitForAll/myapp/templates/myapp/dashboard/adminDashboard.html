@@ -273,6 +273,7 @@
                     <th>Date</th>
                     <th>Start Time</th>
                     <th>End Time</th>
+                    <th>Delete Room Booking</th>
                 </tr>
             </thead>
             <tbody>
@@ -289,6 +290,12 @@
                     </td>
                     <td>{{ booking.booking.start_time|time }}</td>
                     <td>{{ booking.booking.end_time|time }}</td>
+                    <td>  
+                        <form method="POST" action="{% url 'adminDashboard' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                            <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer;">Delete</button>
+                        </form></td>
                 </tr>
                 {% empty %}
                 <tr>

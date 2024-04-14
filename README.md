@@ -29,8 +29,8 @@ equipment maintenance, class schedules, billing, and payments.
 - create a password of your choice
 
 ## Edit the .env file to meet your Database login requirements
-- change DB_USER to match the user corresponding to your Database
-- change DB_PASSWORD to match the password corresponding to your Database
+- set DB_USER to match the user corresponding to your Database
+- set DB_PASSWORD to match the password corresponding to your Database
 
 ## Create a PostgreSQL Database with pgAdmin
 - pip install psycopg2

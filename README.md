@@ -31,8 +31,12 @@ C:\ ...\FitForAll\FitForAll> (you should be here)
 python manage.py makemigrations
 python manage.py migrate
 
+
+
 # Start the server
 python manage.py runserver
+
+
 
 
 ###### Website Instructions ######

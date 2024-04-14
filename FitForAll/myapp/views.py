@@ -20,31 +20,28 @@ def register(request):
     if request.method == 'POST':
         name = request.POST.get('name').strip()
         password = request.POST.get('password').strip()
-        fitness_goals = request.POST.get('goals', '').strip() # Optional, provide default
+        fitness_goals = request.POST.get('goals', '').strip() 
         height = request.POST.get('height').strip()
         weight = request.POST.get('weight').strip()
 
-        # Basic validation (you might want to add more, e.g., checking if user already exists)
         if not (name and password and height and weight):
             messages.error(request, "Please fill out all required fields.")
             return render(request, 'myapp/registration/register.html')
 
         try:
-            # Assuming height and weight are stored as DecimalFields in your model
             member = Member.objects.create(
                 member_id= Member.objects.aggregate(Max('member_id'))['member_id__max']+1,
                 name=name,
-                password=password,  # For demonstration; in real applications, use Django's user model & hash passwords
+                password=password,  
                 fitness_goal=fitness_goals,
                 height=height,
                 weight=weight,
-                health_metrics={}  # Assuming you have a default or an empty value for starters
+                health_metrics={}  
             )
-            # Redirect to login page or dashboard after successful registration
-            return render(request, 'myapp/login/memberLogin.html')  # Assuming you have a URL named 'memberLogin'
+            return render(request, 'myapp/login/memberLogin.html')  
         except Exception as e:
             messages.error(request, "An error occurred during registration. Please try again.")
-            print(e)  # or use logging
+            print(e) 
             return render(request, 'myapp/registration/register.html')
     else:
         return render(request, 'myapp/registration/register.html')
@@ -56,18 +53,15 @@ def train_login(request):
         name = request.POST.get('name').strip()
         password = request.POST.get('password').strip()
 
-        # Assuming at least this query will be made
         try:
             trainer = Trainer.objects.get(name=name, password=password)
-            # Print the last query, safely inside a conditional block ensuring at least one query was made
-            print(connection.queries[-1])  # Safer usage
+            
+            print(connection.queries[-1])  
         except Trainer.DoesNotExist:
-            # Print the last query, safely inside a conditional block ensuring at least one query was made
-            print(connection.queries[-1])  # Safer usage
+            print(connection.queries[-1])  
             return render(request, 'myapp/login/trainerLogin.html', {'error': 'Invalid username or password'})
         
-        # Print the last query, safely inside a conditional block ensuring at least one query was made
-        print(connection.queries[-1])  # Safer usage
+        print(connection.queries[-1])  
         
         request.session['trainer_id'] = trainer.trainer_id
         return redirect('trainerDashboard')
@@ -80,12 +74,10 @@ def admin_login(request):
         name = request.POST.get('name').strip()
         password = request.POST.get('password').strip()
 
-        # Assuming at least this query will be made
         try:
             admin = Admin.objects.get(name=name, password=password)
         except Admin.DoesNotExist:
-            # Print the last query, safely inside a conditional block ensuring at least one query was made
-            print(connection.queries[-1])  # Safer usage
+            print(connection.queries[-1])  
             return render(request, 'myapp/login/adminLogin.html', {'error': 'Invalid username or password'})
         
         
@@ -102,13 +94,13 @@ def adminDashboard(request):
             print(f"{key}: {value}")
         if 'delete' in request.POST:
             equipment_id = request.POST.get('delete')
-            EquipmentMaintenance.objects.filter(equipment_id=equipment_id).delete() # Redirect to prevent form resubmission
+            EquipmentMaintenance.objects.filter(equipment_id=equipment_id).delete() 
         elif 'update_status' in request.POST:
             equipment_id = request.POST.get('update_status')
             new_status = request.POST.get('status')
             equipment = EquipmentMaintenance.objects.get(equipment_id=equipment_id)
             equipment.status = new_status
-            equipment.save() # Redirect to refresh and show updated data
+            equipment.save() 
         elif 'add' in request.POST:
             name = request.POST.get('name')
             last_maintenance_date = request.POST.get('last_maintenance_date')
@@ -117,7 +109,7 @@ def adminDashboard(request):
                 name=name,
                 last_maintenance_date=last_maintenance_date,
                 next_maintenance_date=next_maintenance_date
-            ) # Redirect to show updated list
+            ) 
         
         elif 'add_room_booking' in request.POST:
             room_id = request.POST.get('room_id')
@@ -126,7 +118,6 @@ def adminDashboard(request):
             end_time_str = request.POST.get('end_time')
 
             room = Room.objects.get(room_id=room_id)
-            # Correct parsing of date and time
             start_datetime = datetime.strptime(f"{booking_date} {start_time_str}", "%Y-%m-%d %H:%M")
             end_datetime = datetime.strptime(f"{booking_date} {end_time_str}", "%Y-%m-%d %H:%M")
 
@@ -141,16 +132,17 @@ def adminDashboard(request):
             RoomBooking.objects.filter(room_booking_id=booking_id).delete()
             messages.success(request, 'Booking successfully deleted.')
          # Handle payment management POST requests
+
         if 'payment_method' in request.POST:
             billing_id = request.POST.get('billing_id')
             payment_method = request.POST.get('payment_method')
-            payment_date = datetime.now()  # Use current date as payment date
+            payment_date = datetime.now()  
             billing = Billing.objects.get(id=billing_id)
             Payment.objects.create(
                 billing=billing,
                 payment_date=payment_date,
                 payment_method=payment_method,
-                payment_status='successful'  # Assuming all transactions are successful for simplicity
+                payment_status='successful'  
             )
             billing.status = 'paid'
             billing.save()
@@ -171,10 +163,8 @@ def adminDashboard(request):
             print(f"Found {available_trainers.count()} trainers available on this day of the week.")
 
             for availability in available_trainers:
-                # Start with full range of available times
                 occupied_times = []
 
-                # Gather all blocks of time when the trainer is already occupied
                 personal_sessions = PersonalSession.objects.filter(trainer=availability.trainer, date=date_obj)
                 group_classes = GroupFitnessClass.objects.filter(trainer=availability.trainer, date=date_obj)
                 
@@ -184,7 +174,6 @@ def adminDashboard(request):
                 for g_class in group_classes:
                     occupied_times.append((datetime.combine(date_obj, g_class.start_time), datetime.combine(date_obj, g_class.end_time)))
 
-                # Check available slots by subtracting occupied times
                 start_datetime = datetime.combine(date_obj, availability.check_in)
                 end_datetime = datetime.combine(date_obj, availability.check_out)
 
@@ -199,7 +188,6 @@ def adminDashboard(request):
             if not trainer_times:
                 print("No available trainers found for the selected day.")
 
-     # Existing POST handling code...
         if 'add_group_fitness_class' in request.POST:
             
             session_info = request.POST.get('trainer_session')
@@ -208,7 +196,6 @@ def adminDashboard(request):
             class_date = request.POST.get('date')
             start_time = datetime.strptime(time_str, '%H:%M').time()
             end_time = (datetime.combine(datetime.today(), start_time) + timedelta(hours=1)).time()
-            # Create the GroupFitnessClass object
             GroupFitnessClass.objects.create(
                 trainer_id=trainer_id,
                 room_id=room_id,
@@ -225,14 +212,13 @@ def adminDashboard(request):
     bills = Billing.objects.select_related('member').all()
     payments = Payment.objects.select_related('billing').all()
 
-    # Combine room_bookings and group_fitness_bookings with type identifiers
     combined_bookings = []
     for booking in room_bookings:
         booking_data = {
             'type': 'Room Booking',
             'booking': {
                 'room': booking.room,
-                'date': booking.start_time.date(),  # Assuming start_time and end_time are DateTimeFields
+                'date': booking.start_time.date(),  
                 'start_time': booking.start_time.time(),
                 'end_time': booking.end_time.time()
             }
@@ -264,25 +250,24 @@ def adminDashboard(request):
 
 
 def trainerDashboard(request):
-    print("Loading trainer dashboard...")  # Debugging line
+    print("Loading trainer dashboard...")  
     days_of_week = {
         '0': 'Sunday', '1': 'Monday', '2': 'Tuesday',
         '3': 'Wednesday', '4': 'Thursday', '5': 'Friday', '6': 'Saturday'
     }
-    hours = list(range(24))  # Generate a list of hours from 0 to 23
+    hours = list(range(24))  
     members = []
 
     trainer_id = request.session.get('trainer_id')
-    print(f"Session Trainer ID: {trainer_id}")  # Debugging line
+    print(f"Session Trainer ID: {trainer_id}")  
     if not trainer_id:
         return redirect('trainerLogin')
 
     trainer = Trainer.objects.filter(trainer_id=trainer_id).first()
     if not trainer:
         return redirect('trainerLogin')
-    print(f"Trainer fetched: {trainer.name}")  # Debugging line
+    print(f"Trainer fetched: {trainer.name}")  
 
-    # Fetch trainer availability and format it into structured keys
     availabilities = TrainerAvailability.objects.filter(trainer=trainer).order_by('day_of_week')
     structured_availabilities = {
         day: {
@@ -297,14 +282,13 @@ def trainerDashboard(request):
         structured_availabilities[day_key]['checked'] = True
         structured_availabilities[day_key]['check_in'] = availability.check_in.strftime('%H:00')
         structured_availabilities[day_key]['check_out'] = availability.check_out.strftime('%H:00')
-    print(f"Structured availabilities: {structured_availabilities}")  # Debugging line
+    print(f"Structured availabilities: {structured_availabilities}")  
 
     if request.method == 'POST':
-        print(f"POST data received: {request.POST}")  # Debugging line
+        print(f"POST data received: {request.POST}")  
         if 'member_name' in request.POST:
             member_name = request.POST.get('member_name', '')
             members = Member.objects.filter(name__icontains=member_name)
-        #if 'member_id' in request.POST:
         else:
             days_selected = request.POST.getlist('days')
             for day_value in days_of_week.keys():
@@ -378,10 +362,8 @@ def dashboard(request):
             print(f"Found {available_trainers.count()} trainers available on this day of the week.")
 
             for availability in available_trainers:
-                # Start with full range of available times
                 occupied_times = []
 
-                # Gather all blocks of time when the trainer is already occupied
                 personal_sessions = PersonalSession.objects.filter(trainer=availability.trainer, date=date_obj)
                 group_classes = GroupFitnessClass.objects.filter(trainer=availability.trainer, date=date_obj)
                 
@@ -391,7 +373,6 @@ def dashboard(request):
                 for g_class in group_classes:
                     occupied_times.append((datetime.combine(date_obj, g_class.start_time), datetime.combine(date_obj, g_class.end_time)))
 
-                # Check available slots by subtracting occupied times
                 start_datetime = datetime.combine(date_obj, availability.check_in)
                 end_datetime = datetime.combine(date_obj, availability.check_out)
 
@@ -563,7 +544,6 @@ def dashboard(request):
         bmr = bmr + 1600
     if member.act_levels == '6-7 x times a week':
         bmr = bmr + 1950
-
     rec_bmr = bmr
 
     if member.fitness_goal == 'lose_weight':
@@ -577,9 +557,6 @@ def dashboard(request):
 
     if member.fitness_goal == 'increase_flexibility':
         rec_bmr = rec_bmr -121
-
-
-
 
     # Calculate BP rating
     bp_health = ''
@@ -598,7 +575,6 @@ def dashboard(request):
         bp_health = 'Consult a doctor'
 
     #The workout schedules
-
     mon = ""
     tue = ''
     wed = ''
@@ -801,11 +777,6 @@ def dashboard(request):
     context['gain'] = gain
     context['run'] = run
     context['flex'] = flex
-    
-    
-
-    
-
 
     return render(request, 'myapp/dashboard/index.html', context)
 
@@ -815,10 +786,8 @@ def member_profile(request, member_id):
     try:
         member = Member.objects.get(member_id=member_id)
     except Member.DoesNotExist:
-        return redirect('memberLogin')  # Consider adding an error message or similar
-
+        return redirect('memberLogin')  
     context = {}
-
 
     if request.method == 'POST':
         if request.POST.get('diastolic')  is not None:
@@ -836,7 +805,6 @@ def member_profile(request, member_id):
             messages.success(request, "Profile updated successfully!")
         if 'session_date' in request.POST:
             
-    
             session_date = request.POST['session_date']
             print(f"Received session date from form: {session_date}")
 
@@ -851,7 +819,7 @@ def member_profile(request, member_id):
 
             for availability in available_trainers:
                 if not PersonalSession.objects.filter(trainer=availability.trainer, date=date_obj).exists():
-                    full_day = datetime.combine(date_obj, datetime.min.time())  # Create full datetime objects
+                    full_day = datetime.combine(date_obj, datetime.min.time())  
                     start_datetime = datetime.combine(date_obj, availability.check_in)
                     end_datetime = datetime.combine(date_obj, availability.check_out)
 
@@ -1038,9 +1006,6 @@ def member_profile(request, member_id):
     if member.fitness_goal == 'increase_flexibility':
         rec_bmr = rec_bmr -121
 
-
-
-
     # Calculate BP rating
     bp_health = ''
     bp = str(member.systolic_bp) + '/' + str(member.diastolic_bp)
@@ -1058,7 +1023,6 @@ def member_profile(request, member_id):
         bp_health = 'Consult a doctor'
 
     #The workout schedules
-
     mon = ""
     tue = ''
     wed = ''
@@ -1261,29 +1225,17 @@ def member_profile(request, member_id):
     context['gain'] = gain
     context['run'] = run
     context['flex'] = flex
-    
-    
-
-    
-
 
     return render(request, 'myapp/profile/index.html', context)
-
 
 def member_login(request):
     if request.method == 'POST':
         name = request.POST.get('name').strip()
         password = request.POST.get('password').strip()
-
-        # Assuming at least this query will be made
         try:
             member = Member.objects.get(name=name, password=password)
-            # Print the last query, safely inside a conditional block ensuring at least one query was made
         except Member.DoesNotExist:
-            # Print the last query, safely inside a conditional block ensuring at least one query was made
             return render(request, 'myapp/login/memberLogin.html', {'error': 'Invalid username or password'})
-        
-        
         request.session['member_id'] = member.member_id
         return redirect('dashboard')
     else:
